@@ -37,6 +37,98 @@ definitions:
       count:
         type: integer
     type: object
+  models.Clinic:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.ClinicAdmin:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      birth_date:
+        type: string
+      clinic_branch_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      doctor_type_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.ClinicAdminsResponse:
+    properties:
+      clinic_admins:
+        items:
+          $ref: '#/definitions/models.ClinicAdmin'
+        type: array
+      count:
+        type: integer
+    type: object
+  models.ClinicBranch:
+    properties:
+      address:
+        type: string
+      clinic_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.ClinicBranchsResponse:
+    properties:
+      clinic_branch:
+        items:
+          $ref: '#/definitions/models.ClinicBranch'
+        type: array
+      count:
+        type: integer
+    type: object
+  models.ClinicsResponse:
+    properties:
+      clinics:
+        items:
+          $ref: '#/definitions/models.Clinic'
+        type: array
+      count:
+        type: integer
+    type: object
   models.CreateAuthor:
     properties:
       address:
@@ -56,6 +148,541 @@ definitions:
       phone:
         type: string
     type: object
+  models.CreateClinic:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateClinicAdmin:
+    properties:
+      address:
+        type: string
+      birth_date:
+        type: string
+      clinic_branch_id:
+        type: string
+      doctor_type_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.CreateClinicBranch:
+    properties:
+      address:
+        type: string
+      clinic_id:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.CreateCustomer:
+    properties:
+      address:
+        type: string
+      birth_date:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.CreateDoctor:
+    properties:
+      address:
+        type: string
+      birth_date:
+        type: string
+      doctor_type_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      status:
+        type: string
+      working_time:
+        type: string
+    type: object
+  models.CreateDoctorType:
+    properties:
+      clinic_branch_id:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateDrug:
+    properties:
+      best_before:
+        type: string
+      count:
+        type: integer
+      date_of_manufacture:
+        type: string
+      description:
+        type: string
+      drug_store_branch_id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateDrugStore:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateDrugStoreBranch:
+    properties:
+      address:
+        type: string
+      drug_store_id:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.CreateJournal:
+    properties:
+      article:
+        type: string
+      author_id:
+        type: string
+      theme:
+        type: string
+    type: object
+  models.CreateOrderDrug:
+    properties:
+      drug_id:
+        type: string
+      orders_id:
+        type: string
+    type: object
+  models.CreateOrders:
+    properties:
+      customer_id:
+        type: string
+      pharmacist_id:
+        type: string
+    type: object
+  models.CreatePharmacist:
+    properties:
+      address:
+        type: string
+      birth_date:
+        type: string
+      drug_store_branch_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.CreateQueue:
+    properties:
+      customer_id:
+        type: string
+      doctor_id:
+        type: string
+      queue_number:
+        type: string
+      queue_time:
+        type: string
+    type: object
+  models.CreateSuperAdmin:
+    properties:
+      address:
+        type: string
+      author_id:
+        type: string
+      birth_date:
+        type: string
+      clinic_id:
+        type: string
+      drug_store_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.Customer:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      birth_date:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.CustomersResponse:
+    properties:
+      count:
+        type: integer
+      customers:
+        items:
+          $ref: '#/definitions/models.Customer'
+        type: array
+    type: object
+  models.Doctor:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      birth_date:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      doctor_type_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      working_time:
+        type: string
+    type: object
+  models.DoctorType:
+    properties:
+      clinic_branch_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.DoctorTypesResponse:
+    properties:
+      count:
+        type: integer
+      doctor_types:
+        items:
+          $ref: '#/definitions/models.DoctorType'
+        type: array
+    type: object
+  models.DoctorsResponse:
+    properties:
+      count:
+        type: integer
+      doctors:
+        items:
+          $ref: '#/definitions/models.Doctor'
+        type: array
+    type: object
+  models.Drug:
+    properties:
+      best_before:
+        type: string
+      count:
+        type: integer
+      created_at:
+        type: string
+      date_of_manufacture:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      drug_store_branch_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.DrugStore:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      drug_store:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.DrugStoreBranch:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      drug_store_id:
+        type: string
+      id:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.DrugStoreBranchsResponse:
+    properties:
+      count:
+        type: integer
+      drug_store_branchs:
+        items:
+          $ref: '#/definitions/models.DrugStoreBranch'
+        type: array
+    type: object
+  models.DrugStoresResponse:
+    properties:
+      count:
+        type: integer
+      drug_stores:
+        items:
+          $ref: '#/definitions/models.DrugStore'
+        type: array
+    type: object
+  models.DrugsResponse:
+    properties:
+      count:
+        type: integer
+      drugs:
+        items:
+          $ref: '#/definitions/models.Drug'
+        type: array
+    type: object
+  models.Journal:
+    properties:
+      article:
+        type: string
+      author_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      theme:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.JournalsResponse:
+    properties:
+      count:
+        type: integer
+      journals:
+        items:
+          $ref: '#/definitions/models.Journal'
+        type: array
+    type: object
+  models.OrderDrug:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      drug_id:
+        type: string
+      id:
+        type: string
+      orders_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.OrderDrugsResponse:
+    properties:
+      count:
+        type: integer
+      order_drugs:
+        items:
+          $ref: '#/definitions/models.OrderDrug'
+        type: array
+    type: object
+  models.Orders:
+    properties:
+      created_at:
+        type: string
+      customer_id:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      pharmacist_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.OrdersResponse:
+    properties:
+      count:
+        type: integer
+      orderss:
+        items:
+          $ref: '#/definitions/models.Orders'
+        type: array
+    type: object
+  models.Pharmacist:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      birth_date:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      drug_store_branch_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.PharmacistsResponse:
+    properties:
+      count:
+        type: integer
+      pharmacists:
+        items:
+          $ref: '#/definitions/models.Pharmacist'
+        type: array
+    type: object
+  models.Queue:
+    properties:
+      created_at:
+        type: string
+      customer_id:
+        type: string
+      deleted_at:
+        type: string
+      doctor_id:
+        type: string
+      id:
+        type: string
+      queue_number:
+        type: string
+      queue_time:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.QueuesResponse:
+    properties:
+      count:
+        type: integer
+      queues:
+        items:
+          $ref: '#/definitions/models.Queue'
+        type: array
+    type: object
   models.Response:
     properties:
       data: {}
@@ -64,9 +691,228 @@ definitions:
       statusCode:
         type: integer
     type: object
+  models.SuperAdmin:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      author_id:
+        type: string
+      birth_date:
+        type: string
+      clinic_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      drug_store_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.SuperAdminsResponse:
+    properties:
+      count:
+        type: integer
+      super_admins:
+        items:
+          $ref: '#/definitions/models.SuperAdmin'
+        type: array
+    type: object
   models.UpdateAuthor:
     properties:
       address:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.UpdateClinic:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UpdateClinicAdmin:
+    properties:
+      address:
+        type: string
+      clinic_branch_id:
+        type: string
+      doctor_type_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.UpdateClinicBranch:
+    properties:
+      address:
+        type: string
+      clinic_id:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.UpdateCustomer:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.UpdateDoctor:
+    properties:
+      address:
+        type: string
+      doctor_type_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone:
+        type: string
+      status:
+        type: string
+      working_time:
+        type: string
+    type: object
+  models.UpdateDoctorType:
+    properties:
+      clinic_branch_id:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UpdateDrug:
+    properties:
+      best_before:
+        type: string
+      count:
+        type: integer
+      date_of_manufacture:
+        type: string
+      description:
+        type: string
+      drug_store_branch_id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UpdateDrugStore:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UpdateDrugStoreBranch:
+    properties:
+      address:
+        type: string
+      drug_store_id:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.UpdateJournal:
+    properties:
+      article:
+        type: string
+      author_id:
+        type: string
+      theme:
+        type: string
+    type: object
+  models.UpdateOrderDrug:
+    properties:
+      drug_id:
+        type: string
+      orders_id:
+        type: string
+    type: object
+  models.UpdateOrders:
+    properties:
+      customer_id:
+        type: string
+      pharmacist_id:
+        type: string
+    type: object
+  models.UpdatePharmacist:
+    properties:
+      address:
+        type: string
+      drug_store_branch_id:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.UpdateQueue:
+    properties:
+      customer_id:
+        type: string
+      doctor_id:
+        type: string
+      queue_number:
+        type: string
+      queue_time:
+        type: string
+    type: object
+  models.UpdateSuperAdmin:
+    properties:
+      address:
+        type: string
+      author_id:
+        type: string
+      clinic_id:
+        type: string
+      drug_store_id:
         type: string
       email:
         type: string
@@ -84,45 +930,6 @@ info:
   version: 1.0.0
 paths:
   /author:
-    get:
-      consumes:
-      - application/json
-      description: Get authors list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.AuthorsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get authors list
-      tags:
-      - author
     post:
       consumes:
       - application/json
@@ -231,9 +1038,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: basket
+      - description: author
         in: body
-        name: basket
+        name: author
         required: true
         schema:
           $ref: '#/definitions/models.UpdateAuthor'
@@ -259,4 +1066,2694 @@ paths:
       summary: Update author by id
       tags:
       - author
+  /authors:
+    get:
+      consumes:
+      - application/json
+      description: Get authors list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AuthorsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get authors list
+      tags:
+      - author
+  /clinic:
+    post:
+      consumes:
+      - application/json
+      description: Create a new clinic
+      parameters:
+      - description: clinic data
+        in: body
+        name: clinic
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateClinic'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Clinic'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new clinic
+      tags:
+      - clinic
+  /clinic/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete clinic
+      parameters:
+      - description: clinic id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete clinic
+      tags:
+      - clinic
+    get:
+      consumes:
+      - application/json
+      description: Get clinic by id
+      parameters:
+      - description: clinic
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Clinic'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinic by id
+      tags:
+      - clinic
+    put:
+      consumes:
+      - application/json
+      description: Update clinic by id
+      parameters:
+      - description: clinic id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: clinic
+        in: body
+        name: clinic
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateClinic'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Clinic'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update clinic by id
+      tags:
+      - clinic
+  /clinic_admin:
+    post:
+      consumes:
+      - application/json
+      description: Create a new clinic admin
+      parameters:
+      - description: clinic admin data
+        in: body
+        name: clinic_admin
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateClinicAdmin'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ClinicAdmin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new clinic admin
+      tags:
+      - clinic_admin
+  /clinic_admin/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete clinic admin
+      parameters:
+      - description: clinic_admin id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete clinic admin
+      tags:
+      - clinic_admin
+    get:
+      consumes:
+      - application/json
+      description: Get clinic admin by id
+      parameters:
+      - description: clinic_admin
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicAdmin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinic admin by id
+      tags:
+      - clinic_admin
+    put:
+      consumes:
+      - application/json
+      description: Update clinic admin by id
+      parameters:
+      - description: clinic admin id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: clinic_admin
+        in: body
+        name: clinic_admin
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateClinicAdmin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicAdmin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update clinic admin by id
+      tags:
+      - clinic_admin
+  /clinic_admins:
+    get:
+      consumes:
+      - application/json
+      description: Get clinic admins list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicAdminsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinic admins list
+      tags:
+      - clinic_admin
+  /clinic_branch:
+    post:
+      consumes:
+      - application/json
+      description: Create a new clinic branch
+      parameters:
+      - description: clinic branch data
+        in: body
+        name: clinic_branch
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateClinicBranch'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ClinicBranch'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new clinic branch
+      tags:
+      - clinic_branch
+  /clinic_branch/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete clinic branch
+      parameters:
+      - description: clinic_branch id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete clinic branch
+      tags:
+      - clinic_branch
+    get:
+      consumes:
+      - application/json
+      description: Get clinic branch by id
+      parameters:
+      - description: clinic_branch
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicBranch'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinic branch by id
+      tags:
+      - clinic_branch
+    put:
+      consumes:
+      - application/json
+      description: Update clinic branch by id
+      parameters:
+      - description: clinic branch id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: clinic_branch
+        in: body
+        name: clinic_branch
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateClinicBranch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicBranch'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update clinic branch by id
+      tags:
+      - clinic_branch
+  /clinic_branchs:
+    get:
+      consumes:
+      - application/json
+      description: Get clinic branchs list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicBranchsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinic branchs list
+      tags:
+      - clinic_branch
+  /clinics:
+    get:
+      consumes:
+      - application/json
+      description: Get clinics list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinics list
+      tags:
+      - clinic
+  /customer:
+    post:
+      consumes:
+      - application/json
+      description: Create a new customer
+      parameters:
+      - description: customer data
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCustomer'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new customer
+      tags:
+      - customer
+  /customer/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete customer
+      parameters:
+      - description: customer id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete customer
+      tags:
+      - customer
+    get:
+      consumes:
+      - application/json
+      description: Get customer by id
+      parameters:
+      - description: customer
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get customer by id
+      tags:
+      - customer
+    put:
+      consumes:
+      - application/json
+      description: Update customer by id
+      parameters:
+      - description: customer id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateCustomer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update customer by id
+      tags:
+      - customer
+  /customers:
+    get:
+      consumes:
+      - application/json
+      description: Get customers list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CustomersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get customers list
+      tags:
+      - customer
+  /doctor:
+    post:
+      consumes:
+      - application/json
+      description: Create a new doctor
+      parameters:
+      - description: doctor data
+        in: body
+        name: doctor
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDoctor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Doctor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new doctor
+      tags:
+      - doctor
+  /doctor/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete doctor
+      parameters:
+      - description: doctor id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete doctor
+      tags:
+      - doctor
+    get:
+      consumes:
+      - application/json
+      description: Get doctor by id
+      parameters:
+      - description: doctor
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Doctor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get doctor by id
+      tags:
+      - doctor
+    put:
+      consumes:
+      - application/json
+      description: Update doctor by id
+      parameters:
+      - description: doctor id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: doctor
+        in: body
+        name: doctor
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDoctor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Doctor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update doctor by id
+      tags:
+      - doctor
+  /doctor_type:
+    post:
+      consumes:
+      - application/json
+      description: Create a new doctor type
+      parameters:
+      - description: doctor type data
+        in: body
+        name: doctor_type
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDoctorType'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.DoctorType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new doctor type
+      tags:
+      - doctor_type
+  /doctor_type/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete doctor type
+      parameters:
+      - description: doctor_type id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete doctor type
+      tags:
+      - doctor_type
+    get:
+      consumes:
+      - application/json
+      description: Get doctor type by id
+      parameters:
+      - description: doctor_type
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DoctorType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get doctor type by id
+      tags:
+      - doctor_type
+    put:
+      consumes:
+      - application/json
+      description: Update doctor type by id
+      parameters:
+      - description: doctor type id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: doctor_type
+        in: body
+        name: doctor_type
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDoctorType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DoctorType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update doctor type by id
+      tags:
+      - doctor_type
+  /doctor_types:
+    get:
+      consumes:
+      - application/json
+      description: Get doctor_types list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DoctorTypesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get doctor_types list
+      tags:
+      - doctor_type
+  /doctors:
+    get:
+      consumes:
+      - application/json
+      description: Get doctors list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DoctorsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get doctors list
+      tags:
+      - doctor
+  /drug:
+    post:
+      consumes:
+      - application/json
+      description: Create a new drug
+      parameters:
+      - description: drug data
+        in: body
+        name: drug
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDrug'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Drug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new drug
+      tags:
+      - drug
+  /drug/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete drug
+      parameters:
+      - description: drug id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete drug
+      tags:
+      - drug
+    get:
+      consumes:
+      - application/json
+      description: Get drug by id
+      parameters:
+      - description: drug
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Drug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drug by id
+      tags:
+      - drug
+    put:
+      consumes:
+      - application/json
+      description: Update drug by id
+      parameters:
+      - description: drug id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: drug
+        in: body
+        name: drug
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDrug'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Drug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update drug by id
+      tags:
+      - drug
+  /drug_store:
+    post:
+      consumes:
+      - application/json
+      description: Create a new drug store
+      parameters:
+      - description: drug_store data
+        in: body
+        name: drug_store
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDrugStore'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.DrugStore'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new drug store
+      tags:
+      - drug_store
+  /drug_store/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete drug store
+      parameters:
+      - description: drug_store id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete drug store
+      tags:
+      - drug_store
+    get:
+      consumes:
+      - application/json
+      description: Get drug store by id
+      parameters:
+      - description: drug_store
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStore'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drug store by id
+      tags:
+      - drug_store
+    put:
+      consumes:
+      - application/json
+      description: Update drug store by id
+      parameters:
+      - description: drug_store id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: drug_store
+        in: body
+        name: drug_store
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDrugStore'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStore'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update drug store by id
+      tags:
+      - drug_store
+  /drug_store_branch:
+    post:
+      consumes:
+      - application/json
+      description: Create a new drug store branch
+      parameters:
+      - description: drug_store_branch data
+        in: body
+        name: drug_store_branch
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateDrugStoreBranch'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.DrugStoreBranch'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new drug store branch
+      tags:
+      - drug_store_branch
+  /drug_store_branch/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete drug store branch
+      parameters:
+      - description: drug_store_branch id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete drug store branch
+      tags:
+      - drug_store_branch
+    get:
+      consumes:
+      - application/json
+      description: Get drug store branch by id
+      parameters:
+      - description: drug_store_branch
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStoreBranch'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drug store branch by id
+      tags:
+      - drug_store_branch
+    put:
+      consumes:
+      - application/json
+      description: Update drug store branch by id
+      parameters:
+      - description: drug_store_branch id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: drug_store_branch
+        in: body
+        name: drug_store_branch
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDrugStoreBranch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStoreBranch'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update drug store branch by id
+      tags:
+      - drug_store_branch
+  /drug_store_branchs:
+    get:
+      consumes:
+      - application/json
+      description: Get drug store branchs list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStoreBranchsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drug store branchs list
+      tags:
+      - drug_store_branch
+  /drug_stores:
+    get:
+      consumes:
+      - application/json
+      description: Get drug stores list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStoresResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drug stores list
+      tags:
+      - drug_store
+  /drugs:
+    get:
+      consumes:
+      - application/json
+      description: Get drugs list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drugs list
+      tags:
+      - drug
+  /journal:
+    post:
+      consumes:
+      - application/json
+      description: Create a new journal
+      parameters:
+      - description: journal data
+        in: body
+        name: journal
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateJournal'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Journal'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new journal
+      tags:
+      - journal
+  /journal/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete journal
+      parameters:
+      - description: journal id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete journal
+      tags:
+      - journal
+    get:
+      consumes:
+      - application/json
+      description: Get journal by id
+      parameters:
+      - description: journal
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Journal'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get journal by id
+      tags:
+      - journal
+    put:
+      consumes:
+      - application/json
+      description: Update journal by id
+      parameters:
+      - description: journal id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: journal
+        in: body
+        name: journal
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateJournal'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Journal'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update journal by id
+      tags:
+      - journal
+  /journals:
+    get:
+      consumes:
+      - application/json
+      description: Get journals list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.JournalsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get journals list
+      tags:
+      - journal
+  /order_drug:
+    get:
+      consumes:
+      - application/json
+      description: Get OrderDrugs list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderDrugsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get OrderDrugs list
+      tags:
+      - order_drug
+    post:
+      consumes:
+      - application/json
+      description: Create a new OrderDrug
+      parameters:
+      - description: OrderDrug data
+        in: body
+        name: orderDrug
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateOrderDrug'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.OrderDrug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new OrderDrug
+      tags:
+      - order_drug
+  /order_drug/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete OrderDrug
+      parameters:
+      - description: OrderDrug id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete OrderDrug
+      tags:
+      - order_drug
+    get:
+      consumes:
+      - application/json
+      description: Get OrderDrug by id
+      parameters:
+      - description: OrderDrug
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderDrug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get OrderDrug by id
+      tags:
+      - order_drug
+    put:
+      consumes:
+      - application/json
+      description: Update OrderDrug by id
+      parameters:
+      - description: OrderDrug id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: OrderDrug
+        in: body
+        name: OrderDrug
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateOrderDrug'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderDrug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update OrderDrug by id
+      tags:
+      - order_drug
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: Get Orderss list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrdersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get Orderss list
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Create a new Orders
+      parameters:
+      - description: Orders data
+        in: body
+        name: Orders
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateOrders'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Orders'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new Orders
+      tags:
+      - orders
+  /orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Orders
+      parameters:
+      - description: Orders id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete Orders
+      tags:
+      - orders
+    get:
+      consumes:
+      - application/json
+      description: Get Orders by id
+      parameters:
+      - description: Orders
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Orders'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get Orders by id
+      tags:
+      - orders
+    put:
+      consumes:
+      - application/json
+      description: Update Orders by id
+      parameters:
+      - description: Orders id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Orders
+        in: body
+        name: Orders
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateOrders'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Orders'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update Orders by id
+      tags:
+      - orders
+  /pharmacist:
+    get:
+      consumes:
+      - application/json
+      description: Get Pharmacists list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PharmacistsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get Pharmacists list
+      tags:
+      - pharmacist
+    post:
+      consumes:
+      - application/json
+      description: Create a new Pharmacist
+      parameters:
+      - description: Pharmacist data
+        in: body
+        name: Pharmacist
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreatePharmacist'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Pharmacist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new Pharmacist
+      tags:
+      - pharmacist
+  /pharmacist/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Pharmacist
+      parameters:
+      - description: Pharmacist id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete Pharmacist
+      tags:
+      - pharmacist
+    get:
+      consumes:
+      - application/json
+      description: Get Pharmacist by id
+      parameters:
+      - description: Pharmacist
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Pharmacist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get Pharmacist by id
+      tags:
+      - pharmacist
+    put:
+      consumes:
+      - application/json
+      description: Update Pharmacist by id
+      parameters:
+      - description: Pharmacist id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Pharmacist
+        in: body
+        name: Pharmacist
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePharmacist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Pharmacist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update Pharmacist by id
+      tags:
+      - pharmacist
+  /queue:
+    get:
+      consumes:
+      - application/json
+      description: Get Queues list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QueuesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get Queues list
+      tags:
+      - queue
+    post:
+      consumes:
+      - application/json
+      description: Create a new Queue
+      parameters:
+      - description: Queue data
+        in: body
+        name: Queue
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateQueue'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Queue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new Queue
+      tags:
+      - queue
+  /queue/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Queue
+      parameters:
+      - description: Queue id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete Queue
+      tags:
+      - queue
+    get:
+      consumes:
+      - application/json
+      description: Get Queue by id
+      parameters:
+      - description: Queue
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Queue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get Queue by id
+      tags:
+      - queue
+    put:
+      consumes:
+      - application/json
+      description: Update Queue by id
+      parameters:
+      - description: Queue id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Queue
+        in: body
+        name: Queue
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateQueue'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Queue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update Queue by id
+      tags:
+      - queue
+  /super_admin:
+    get:
+      consumes:
+      - application/json
+      description: Get SuperAdmins list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuperAdminsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get SuperAdmins list
+      tags:
+      - super_admin
+    post:
+      consumes:
+      - application/json
+      description: Create a new SuperAdmin
+      parameters:
+      - description: SuperAdmin data
+        in: body
+        name: SuperAdmin
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateSuperAdmin'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.SuperAdmin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new SuperAdmin
+      tags:
+      - super_admin
+  /super_admin/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete SuperAdmin
+      parameters:
+      - description: SuperAdmin id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete SuperAdmin
+      tags:
+      - super_admin
+    get:
+      consumes:
+      - application/json
+      description: Get SuperAdmin by id
+      parameters:
+      - description: SuperAdmin
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuperAdmin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get SuperAdmin by id
+      tags:
+      - super_admin
+    put:
+      consumes:
+      - application/json
+      description: Update SuperAdmin by id
+      parameters:
+      - description: SuperAdmin id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: SuperAdmin
+        in: body
+        name: SuperAdmin
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateSuperAdmin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuperAdmin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update SuperAdmin by id
+      tags:
+      - super_admin
 swagger: "2.0"

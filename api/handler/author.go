@@ -85,7 +85,7 @@ func (h Handler) GetAuthorByID(c *gin.Context) {
 }
 
 // GetAuthorsList godoc
-// @Router       /author [GET]
+// @Router       /authors [GET]
 // @Summary      Get authors list
 // @Description  Get authors list
 // @Tags         author
@@ -176,7 +176,7 @@ func (h Handler) UpdateAuthor(c *gin.Context) {
 		ID: id,
 	})
 	if err != nil {
-		handleResponse(c, "error while getting basket by id", http.StatusInternalServerError, err)
+		handleResponse(c, "error while getting author by id", http.StatusInternalServerError, err)
 		return
 	}
 

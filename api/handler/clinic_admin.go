@@ -18,7 +18,7 @@ import (
 // @Tags         clinic_admin
 // @Accept       json
 // @Produce      json
-// @Param        clinic admin  body  models.CreateClinicAdmin  true  "clinic admin data"
+// @Param        clinic_admin  body  models.CreateClinicAdmin  true  "clinic admin data"
 // @Success      201  {object}  models.ClinicAdmin
 // @Failure      400  {object}  models.Response
 // @Failure      404  {object}  models.Response
@@ -76,7 +76,7 @@ func (h Handler) GetClinicAdminByID(c *gin.Context) {
 		ID: id.String(),
 	})
 	if err != nil {
-		handleResponse(c, "error while get author by id", http.StatusInternalServerError, err)
+		handleResponse(c, "error while get clinic admin by id", http.StatusInternalServerError, err)
 		return
 	}
 
@@ -85,7 +85,7 @@ func (h Handler) GetClinicAdminByID(c *gin.Context) {
 }
 
 // GetClinicAdminsList godoc
-// @Router       /clinic_admin [GET]
+// @Router       /clinic_admins [GET]
 // @Summary      Get clinic admins list
 // @Description  Get clinic admins list
 // @Tags         clinic_admin
@@ -176,7 +176,7 @@ func (h Handler) UpdateClinicAdmin(c *gin.Context) {
 		ID: id,
 	})
 	if err != nil {
-		handleResponse(c, "error while getting basket by id", http.StatusInternalServerError, err)
+		handleResponse(c, "error while getting clinic admin by id", http.StatusInternalServerError, err)
 		return
 	}
 
