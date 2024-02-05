@@ -50,7 +50,7 @@ type UpdateSuperAdminPassword struct {
 	Password string `json:"password"`
 }
 
-type SuperAdminResponse struct {
+type SuperAdminsResponse struct {
 	SuperAdmins []SuperAdmin `json:"super_admins"`
 	Count       int          `json:"count"`
 }

@@ -11,6 +11,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 )
 
+// @title           ShifoLink
+// @version         1.0.0
+// @description     Online doctor appointments and drug orders
 func New(store storage.IStorage) *gin.Engine {
 
 	handler.New(store)
