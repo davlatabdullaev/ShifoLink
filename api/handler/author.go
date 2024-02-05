@@ -36,7 +36,7 @@ func (h Handler) CreateAuthor(c *gin.Context) {
 		return
 	}
 
-	basket, err := h.storage.Author().Get(context.Background(), models.PrimaryKey{
+	author, err := h.storage.Author().Get(context.Background(), models.PrimaryKey{
 		ID: id,
 	})
 	if err != nil {
@@ -44,7 +44,7 @@ func (h Handler) CreateAuthor(c *gin.Context) {
 		return
 	}
 
-	handleResponse(c, "", http.StatusCreated, basket)
+	handleResponse(c, "", http.StatusCreated, author)
 
 }
 
@@ -145,7 +145,7 @@ func (h Handler) GetAuthorList(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        id path string true "author id"
-// @Param        basket body models.UpdateAuthor true "basket"
+// @Param        author body models.UpdateAuthor true "author"
 // @Success      200  {object}  models.Author
 // @Failure      400  {object}  models.Response
 // @Failure      404  {object}  models.Response
@@ -172,7 +172,7 @@ func (h Handler) UpdateAuthor(c *gin.Context) {
 		return
 	}
 
-	basket, err := h.storage.Author().Get(context.Background(), models.PrimaryKey{
+	author, err := h.storage.Author().Get(context.Background(), models.PrimaryKey{
 		ID: id,
 	})
 	if err != nil {
@@ -180,7 +180,7 @@ func (h Handler) UpdateAuthor(c *gin.Context) {
 		return
 	}
 
-	handleResponse(c, "", http.StatusOK, basket)
+	handleResponse(c, "", http.StatusOK, author)
 
 }
 
