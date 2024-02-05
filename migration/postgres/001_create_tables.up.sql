@@ -79,6 +79,7 @@ CREATE TABLE queue (
     customer_id UUID REFERENCES customer(id),
     doctor_id UUID REFERENCES doctor(id),
     queue_number VARCHAR(15) NOT NULL,
+    queue_time VARCHAR(10) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
@@ -128,7 +129,7 @@ CREATE TABLE pharmacist (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE order (
+CREATE TABLE orders (
     id UUID PRIMARY KEY,
     pharmacist_id UUID REFERENCES pharmacist(id),
     customer_id UUID REFERENCES customer(id),
@@ -139,7 +140,7 @@ CREATE TABLE order (
 CREATE TABLE order_drug (
     id UUID PRIMARY KEY,
     drug_id UUID REFERENCES drug(id),
-    order_id UUID REFERENCES order(id),
+    orders_id UUID REFERENCES orders(id),
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP

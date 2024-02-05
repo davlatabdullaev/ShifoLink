@@ -20,7 +20,7 @@ drop table if exists drug;
 
 drop table if exists pharmacist;
 
-drop table if exists order;
+drop table if exists orders;
 
 drop table if exists order_drug;
 
