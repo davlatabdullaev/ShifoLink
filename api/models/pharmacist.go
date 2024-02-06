@@ -32,6 +32,7 @@ type CreatePharmacist struct {
 }
 
 type UpdatePharmacist struct {
+	ID                string `json:"id"`
 	DrugStoreBranchID string `json:"drug_store_branch_id"`
 	FirstName         string `json:"first_name"`
 	LastName          string `json:"last_name"`

@@ -85,7 +85,7 @@ func (h Handler) GetJournalByID(c *gin.Context) {
 }
 
 // GetJournalsList godoc
-// @Router       /journals [GET]
+// @Router       /journal [GET]
 // @Summary      Get journals list
 // @Description  Get journals list
 // @Tags         journal

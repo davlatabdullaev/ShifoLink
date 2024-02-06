@@ -85,7 +85,7 @@ func (h Handler) GetDrugStoreBranchByID(c *gin.Context) {
 }
 
 // GetDrugStoreBranchsList godoc
-// @Router       /drug_store_branchs [GET]
+// @Router       /drug_store_branch [GET]
 // @Summary      Get drug store branchs list
 // @Description  Get drug store branchs list
 // @Tags         drug_store_branch

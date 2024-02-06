@@ -8,6 +8,7 @@ type Drug struct {
 	Name              string    `json:"name"`
 	Description       string    `json:"description"`
 	Count             int       `json:"count"`
+	Price             string    `json:"price"`
 	DateOfManufacture string    `json:"date_of_manufacture"`
 	BestBefore        string    `json:"best_before"`
 	CreatedAt         time.Time `json:"created_at"`
@@ -20,17 +21,18 @@ type CreateDrug struct {
 	Name              string `json:"name"`
 	Description       string `json:"description"`
 	Count             int    `json:"count"`
+	Price             string `json:"price"`
 	DateOfManufacture string `json:"date_of_manufacture"`
 	BestBefore        string `json:"best_before"`
 }
 
 type UpdateDrug struct {
+	ID                string `json:"id"`
 	DrugStoreBranchID string `json:"drug_store_branch_id"`
 	Name              string `json:"name"`
 	Description       string `json:"description"`
 	Count             int    `json:"count"`
-	DateOfManufacture string `json:"date_of_manufacture"`
-	BestBefore        string `json:"best_before"`
+	Price             string `json:"price"`
 }
 
 type DrugsResponse struct {

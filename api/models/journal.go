@@ -19,6 +19,7 @@ type CreateJournal struct {
 }
 
 type UpdateJournal struct {
+	ID       string `json:"id"`
 	AuthorID string `json:"author_id"`
 	Theme    string `json:"theme"`
 	Article  string `json:"article"`

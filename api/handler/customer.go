@@ -85,7 +85,7 @@ func (h Handler) GetCustomerByID(c *gin.Context) {
 }
 
 // GetCustomersList godoc
-// @Router       /customers [GET]
+// @Router       /customer [GET]
 // @Summary      Get customers list
 // @Description  Get customers list
 // @Tags         customer

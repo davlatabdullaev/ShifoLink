@@ -17,6 +17,7 @@ type CreateDrugStore struct {
 }
 
 type UpdateDrugStore struct {
+	ID          string `json:"drug_store"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }

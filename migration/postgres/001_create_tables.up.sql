@@ -11,6 +11,7 @@ CREATE TABLE clinic_branch (
     clinic_id UUID REFERENCES clinic(id),
     address VARCHAR(50) NOT NULL,
     phone VARCHAR(13) NOT NULL,
+    working_time VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
@@ -97,6 +98,7 @@ CREATE TABLE drug_store_branch (
     drug_store_id UUID REFERENCES drug_store(id),
     address VARCHAR(120) NOT NULL,
     phone VARCHAR(13) NOT NULL,
+    working_time VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
@@ -107,6 +109,7 @@ CREATE TABLE drug (
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
     count INT NOT NULL,
+    price NUMERIC(100,2) NOT NULL,
     date_of_manufacture VARCHAR(50) NOT NULL,
     best_before VARCHAR(15) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),

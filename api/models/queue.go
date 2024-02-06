@@ -19,10 +19,10 @@ type CreateQueue struct {
 }
 
 type UpdateQueue struct {
-	CustomerID  string `json:"customer_id"`
-	DoctorID    string `json:"doctor_id"`
-	QueueNumber string `json:"queue_number"`
-	QueueTime   string `json:"queue_time"`
+	ID         string `json:"id"`
+	CustomerID string `json:"customer_id"`
+	DoctorID   string `json:"doctor_id"`
+	QueueTime  string `json:"queue_time"`
 }
 
 type QueuesResponse struct {

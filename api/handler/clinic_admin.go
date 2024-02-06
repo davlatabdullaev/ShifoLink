@@ -85,7 +85,7 @@ func (h Handler) GetClinicAdminByID(c *gin.Context) {
 }
 
 // GetClinicAdminsList godoc
-// @Router       /clinic_admins [GET]
+// @Router       /clinic_admin [GET]
 // @Summary      Get clinic admins list
 // @Description  Get clinic admins list
 // @Tags         clinic_admin

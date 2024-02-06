@@ -17,11 +17,12 @@ type CreateOrders struct {
 }
 
 type UpdateOrders struct {
+	ID           string `json:"id"`
 	PharmacistID string `json:"pharmacist_id"`
 	CustomerID   string `json:"customer_id"`
 }
 
 type OrdersResponse struct {
 	Orderss []Orders `json:"orderss"`
-	Count  int     `json:"count"`
+	Count   int      `json:"count"`
 }

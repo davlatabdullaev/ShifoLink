@@ -86,8 +86,8 @@ func (h Handler) GetOrdersByID(c *gin.Context) {
 
 // GetOrdersList godoc
 // @Router       /orders [GET]
-// @Summary      Get Orderss list
-// @Description  Get Orderss list
+// @Summary      Get Orders list
+// @Description  Get Orders list
 // @Tags         orders
 // @Accept       json
 // @Produce      json

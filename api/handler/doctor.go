@@ -85,7 +85,7 @@ func (h Handler) GetDoctorByID(c *gin.Context) {
 }
 
 // GetDoctorsList godoc
-// @Router       /doctors [GET]
+// @Router       /doctor [GET]
 // @Summary      Get doctors list
 // @Description  Get doctors list
 // @Tags         doctor

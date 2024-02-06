@@ -85,7 +85,7 @@ func (h Handler) GetDrugStoreByID(c *gin.Context) {
 }
 
 // GetDrugStoresList godoc
-// @Router       /drug_stores [GET]
+// @Router       /drug_store [GET]
 // @Summary      Get drug stores list
 // @Description  Get drug stores list
 // @Tags         drug_store

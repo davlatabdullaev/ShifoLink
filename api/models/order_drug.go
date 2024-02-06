@@ -17,6 +17,7 @@ type CreateOrderDrug struct {
 }
 
 type UpdateOrderDrug struct {
+	ID       string `json:"id"`
 	DrugID   string `json:"drug_id"`
 	OrdersID string `json:"orders_id"`
 }

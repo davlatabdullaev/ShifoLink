@@ -34,6 +34,7 @@ type CreateClinicAdmin struct {
 }
 
 type UpdateClinicAdmin struct {
+	ID             string `json:"id"`
 	ClinicBranchID string `json:"clinic_branch_id"`
 	DoctorTypeID   string `json:"doctor_type_id"`
 	FirstName      string `json:"first_name"`

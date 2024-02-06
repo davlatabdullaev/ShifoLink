@@ -2,9 +2,14 @@ package postgres
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"shifolink/api/models"
+	"shifolink/pkg/check"
 	"shifolink/storage"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -20,25 +25,192 @@ func NewAuthorRepo(pool *pgxpool.Pool) storage.IAuthorRepo {
 
 func (a *authorRepo) Create(ctx context.Context, request models.CreateAuthor) (string, error) {
 
-	return "", nil
+	id := uuid.New()
+
+	query := `insert into author (id, first_name, last_name, email, password, phone, gender, birth_date, age, address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+
+	_, err := a.pool.Exec(ctx, query,
+		id,
+		request.FirstName,
+		request.LastName,
+		request.Email,
+		request.Password,
+		request.Phone,
+		request.Gender,
+		request.BirthDate,
+		check.CalculateAge(request.BirthDate),
+		request.Address,
+	)
+	if err != nil {
+		log.Println("error while inserting author", err.Error())
+		return "", err
+	}
+
+	return id.String(), nil
+
 }
 
 func (a *authorRepo) Get(ctx context.Context, request models.PrimaryKey) (models.Author, error) {
 
-	return models.Author{}, nil
+	author := models.Author{}
+
+	query := `select 
+	 id,
+	 first_name, 
+	 last_name, 
+	 email, 
+	 password, 
+	 phone, 
+	 gender, 
+	 birth_date, 
+	 age, 
+	 address, 
+	 created_at, 
+	 updated_at 
+	 from author where deleted_at is null and id = $1`
+
+	row := a.pool.QueryRow(ctx, query, request.ID)
+
+	err := row.Scan(
+		&author.ID,
+		&author.FirstName,
+		&author.LastName,
+		&author.Email,
+		&author.Password,
+		&author.Phone,
+		&author.Gender,
+		&author.BirthDate,
+		&author.Age,
+		&author.Address,
+		&author.CreatedAt,
+		&author.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Println("error while selecting author", err.Error())
+		return models.Author{}, err
+	}
+
+	return author, nil
 }
 
 func (a *authorRepo) GetList(ctx context.Context, request models.GetListRequest) (models.AuthorsResponse, error) {
 
-	return models.AuthorsResponse{}, nil
+	var (
+		authors           = []models.Author{}
+		count             = 0
+		query, countQuery string
+		page              = request.Page
+		offset            = (page - 1) * request.Limit
+		search            = request.Search
+	)
+
+	countQuery = `select count(1) from author where deleted_at is null`
+
+	if search != "" {
+		countQuery += fmt.Sprintf(` and (first_name ilike '%%%s%%' or last_name ilike '%%%s%%')`, search, search)
+	}
+	if err := a.pool.QueryRow(ctx, countQuery).Scan(&count); err != nil {
+		fmt.Println("error is while selecting count", err.Error())
+		return models.AuthorsResponse{}, err
+	}
+
+	query = `select 
+	 id,
+	 first_name, 
+	 last_name, 
+	 email, 
+	 password, 
+	 phone, 
+	 gender, 
+	 birth_date, 
+	 age, 
+	 address, 
+	 created_at, 
+	 updated_at from author where deleted_at is null`
+
+	if search != "" {
+		query += fmt.Sprintf(` and (first_name ilike '%%%s%%' or last_name ilike '%%%s%%')`, search, search)
+	}
+
+	query += ` LIMIT $1 OFFSET $2`
+	rows, err := a.pool.Query(ctx, query, request.Limit, offset)
+	if err != nil {
+		fmt.Println("error is while selecting author", err.Error())
+		return models.AuthorsResponse{}, err
+	}
+
+	for rows.Next() {
+		author := models.Author{}
+		if err = rows.Scan(
+			&author.ID,
+			&author.FirstName,
+			&author.LastName,
+			&author.Email,
+			&author.Password,
+			&author.Phone,
+			&author.Gender,
+			&author.BirthDate,
+			&author.Age,
+			&author.Address,
+			&author.CreatedAt,
+			&author.UpdatedAt,
+		); err != nil {
+			fmt.Println("error is while scanning author data", err.Error())
+			return models.AuthorsResponse{}, err
+		}
+
+		authors = append(authors, author)
+
+	}
+
+	return models.AuthorsResponse{
+		Authors: authors,
+		Count:   count,
+	}, nil
 }
 
 func (a *authorRepo) Update(ctx context.Context, request models.UpdateAuthor) (string, error) {
 
-	return "", nil
+	query := `update author set
+    first_name = $1,
+    last_name = $2, 
+	email = $3,
+	phone = $4,
+    address = $5,
+	updated_at = $6
+   where id = $7  
+   `
+
+	_, err := a.pool.Exec(ctx, query,
+		request.FirstName,
+		request.LastName,
+		request.Email,
+		request.Phone,
+		request.Address,
+		time.Now(),
+		request.ID)
+	if err != nil {
+		log.Println("error while updating author data...", err.Error())
+		return "", err
+	}
+
+	return request.ID, nil
 }
 
 func (a *authorRepo) Delete(ctx context.Context, id string) error {
+
+	query := `
+	update author
+	 set deleted_at = $1
+	  where id = $2
+	`
+
+	_, err := a.pool.Exec(ctx, query, time.Now(), id)
+	if err != nil {
+		log.Println("error while deleting author by id", err.Error())
+		return err
+	}
 
 	return nil
 }

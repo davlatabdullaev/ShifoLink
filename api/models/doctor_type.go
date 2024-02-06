@@ -19,6 +19,7 @@ type CreateDoctorType struct {
 }
 
 type UpdateDoctorType struct {
+	ID             string    `json:"id"`
 	Name           string `json:"name"`
 	Description    string `json:"description"`
 	ClinicBranchID string `json:"clinic_branch_id"`

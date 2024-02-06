@@ -36,6 +36,7 @@ type CreateSuperAdmin struct {
 }
 
 type UpdateSuperAdmin struct {
+	ID          string `json:"id"`
 	ClinicID    string `json:"clinic_id"`
 	DrugStoreID string `json:"drug_store_id"`
 	AuthorID    string `json:"author_id"`
