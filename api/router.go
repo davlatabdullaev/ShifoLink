@@ -66,7 +66,7 @@ func New(store storage.IStorage) *gin.Engine {
 	r.GET("doctor_type/:id", h.GetDoctorTypeByID)
 	r.GET("doctor_type", h.GetDoctorTypesList)
 	r.PUT("doctor_type/:id", h.UpdateDoctorType)
-	r.DELETE("doctortype_/:id", h.DeleteDoctorType)
+	r.DELETE("doctor_type/:id", h.DeleteDoctorType)
 
 	// DOCTOR
 

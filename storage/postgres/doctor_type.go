@@ -167,7 +167,7 @@ func (d *doctorTypeRepo) Update(ctx context.Context, request models.UpdateDoctor
 	query := `update doctor_type set
 	name = $1,
 	description = $2,
-	clinic_branch_id = $3
+	clinic_branch_id = $3,
     updated_at = $4 
 	 where id = $5  
    `
