@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -67,6 +68,8 @@ func (d *doctorRepo) Create(ctx context.Context, request models.CreateDoctor) (s
 
 func (d *doctorRepo) Get(ctx context.Context, request models.PrimaryKey) (models.Doctor, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	doctor := models.Doctor{}
 
 	query := `select 
@@ -104,12 +107,16 @@ func (d *doctorRepo) Get(ctx context.Context, request models.PrimaryKey) (models
 		&doctor.WorkingTime,
 		&doctor.Status,
 		&doctor.CreatedAt,
-		&doctor.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting doctor", err.Error())
 		return models.Doctor{}, err
+	}
+
+	if updatedAt.Valid {
+		doctor.UpdatedAt = updatedAt.Time
 	}
 
 	return doctor, nil
@@ -119,6 +126,7 @@ func (d *doctorRepo) Get(ctx context.Context, request models.PrimaryKey) (models
 func (d *doctorRepo) GetList(ctx context.Context, request models.GetListRequest) (models.DoctorsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		doctors           = []models.Doctor{}
 		count             = 0
 		query, countQuery string
@@ -182,10 +190,14 @@ func (d *doctorRepo) GetList(ctx context.Context, request models.GetListRequest)
 			&doctor.WorkingTime,
 			&doctor.Status,
 			&doctor.CreatedAt,
-			&doctor.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning doctor data", err.Error())
 			return models.DoctorsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			doctor.UpdatedAt = updatedAt.Time
 		}
 
 		doctors = append(doctors, doctor)

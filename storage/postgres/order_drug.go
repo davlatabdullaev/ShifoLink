@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -48,6 +49,8 @@ func (o *orderDrugRepo) Create(ctx context.Context, request models.CreateOrderDr
 
 func (o *orderDrugRepo) Get(ctx context.Context, request models.PrimaryKey) (models.OrderDrug, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	orderDrug := models.OrderDrug{}
 
 	query := `select 
@@ -65,12 +68,16 @@ func (o *orderDrugRepo) Get(ctx context.Context, request models.PrimaryKey) (mod
 		&orderDrug.DrugID,
 		&orderDrug.OrdersID,
 		&orderDrug.CreatedAt,
-		&orderDrug.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting order drug", err.Error())
 		return models.OrderDrug{}, err
+	}
+
+	if updatedAt.Valid {
+		orderDrug.UpdatedAt = updatedAt.Time
 	}
 
 	return orderDrug, nil
@@ -80,6 +87,7 @@ func (o *orderDrugRepo) Get(ctx context.Context, request models.PrimaryKey) (mod
 func (o *orderDrugRepo) GetList(ctx context.Context, request models.GetListRequest) (models.OrderDrugsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		orderDrugs        = []models.OrderDrug{}
 		count             = 0
 		query, countQuery string
@@ -123,10 +131,14 @@ func (o *orderDrugRepo) GetList(ctx context.Context, request models.GetListReque
 			&orderDrug.DrugID,
 			&orderDrug.OrdersID,
 			&orderDrug.CreatedAt,
-			&orderDrug.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning order drug data", err.Error())
 			return models.OrderDrugsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			orderDrug.UpdatedAt = updatedAt.Time
 		}
 
 		orderDrugs = append(orderDrugs, orderDrug)

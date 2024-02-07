@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -58,6 +59,8 @@ func (d *drugRepo) Create(ctx context.Context, request models.CreateDrug) (strin
 
 func (d *drugRepo) Get(ctx context.Context, request models.PrimaryKey) (models.Drug, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	drug := models.Drug{}
 
 	query := `select 
@@ -85,7 +88,7 @@ func (d *drugRepo) Get(ctx context.Context, request models.PrimaryKey) (models.D
 		&drug.DateOfManufacture,
 		&drug.BestBefore,
 		&drug.CreatedAt,
-		&drug.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
@@ -93,6 +96,9 @@ func (d *drugRepo) Get(ctx context.Context, request models.PrimaryKey) (models.D
 		return models.Drug{}, err
 	}
 
+	if updatedAt.Valid {
+		drug.UpdatedAt = updatedAt.Time
+	}
 	return drug, nil
 
 }
@@ -100,6 +106,7 @@ func (d *drugRepo) Get(ctx context.Context, request models.PrimaryKey) (models.D
 func (d *drugRepo) GetList(ctx context.Context, request models.GetListRequest) (models.DrugsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		drugs             = []models.Drug{}
 		count             = 0
 		query, countQuery string
@@ -154,10 +161,14 @@ func (d *drugRepo) GetList(ctx context.Context, request models.GetListRequest) (
 			&drug.DateOfManufacture,
 			&drug.BestBefore,
 			&drug.CreatedAt,
-			&drug.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning drug data", err.Error())
 			return models.DrugsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			drug.UpdatedAt = updatedAt.Time
 		}
 
 		drugs = append(drugs, drug)

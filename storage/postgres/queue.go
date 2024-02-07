@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -50,6 +51,8 @@ func (q *queueRepo) Create(ctx context.Context, request models.CreateQueue) (str
 
 func (q *queueRepo) Get(ctx context.Context, request models.PrimaryKey) (models.Queue, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	queue := models.Queue{}
 
 	query := `select 
@@ -71,12 +74,16 @@ func (q *queueRepo) Get(ctx context.Context, request models.PrimaryKey) (models.
 		&queue.QueueNumber,
 		&queue.QueueTime,
 		&queue.CreatedAt,
-		&queue.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting queue", err.Error())
 		return models.Queue{}, err
+	}
+
+	if updatedAt.Valid {
+		queue.UpdatedAt = updatedAt.Time
 	}
 
 	return queue, nil
@@ -86,6 +93,7 @@ func (q *queueRepo) Get(ctx context.Context, request models.PrimaryKey) (models.
 func (q *queueRepo) GetList(ctx context.Context, request models.GetListRequest) (models.QueuesResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		queues            = []models.Queue{}
 		count             = 0
 		query, countQuery string
@@ -133,9 +141,13 @@ func (q *queueRepo) GetList(ctx context.Context, request models.GetListRequest) 
 			&queue.QueueNumber,
 			&queue.QueueTime,
 			&queue.CreatedAt,
-			&queue.UpdatedAt); err != nil {
+			&updatedAt); err != nil {
 			fmt.Println("error is while scanning queues data", err.Error())
 			return models.QueuesResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			queue.UpdatedAt = updatedAt.Time
 		}
 
 		queues = append(queues, queue)
@@ -175,7 +187,6 @@ func (q *queueRepo) Update(ctx context.Context, request models.UpdateQueue) (str
 
 func (q *queueRepo) Delete(ctx context.Context, id string) error {
 
-
 	query := `
 	update queue
 	 set deleted_at = $1
@@ -189,6 +200,5 @@ func (q *queueRepo) Delete(ctx context.Context, id string) error {
 	}
 
 	return nil
-
 
 }

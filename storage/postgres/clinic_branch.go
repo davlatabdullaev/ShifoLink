@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -51,6 +52,8 @@ func (c *clinicBranchRepo) Create(ctx context.Context, request models.CreateClin
 
 func (c *clinicBranchRepo) Get(ctx context.Context, request models.PrimaryKey) (models.ClinicBranch, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	clinicBranch := models.ClinicBranch{}
 
 	query := `select 
@@ -72,12 +75,16 @@ func (c *clinicBranchRepo) Get(ctx context.Context, request models.PrimaryKey) (
 		&clinicBranch.Phone,
 		&clinicBranch.WorkingTime,
 		&clinicBranch.CreatedAt,
-		&clinicBranch.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting clinic branch", err.Error())
 		return models.ClinicBranch{}, err
+	}
+
+	if updatedAt.Valid {
+		clinicBranch.UpdatedAt = updatedAt.Time
 	}
 
 	return clinicBranch, nil
@@ -86,6 +93,7 @@ func (c *clinicBranchRepo) Get(ctx context.Context, request models.PrimaryKey) (
 func (c *clinicBranchRepo) GetList(ctx context.Context, request models.GetListRequest) (models.ClinicBranchsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		clinicBranchs     = []models.ClinicBranch{}
 		count             = 0
 		query, countQuery string
@@ -133,11 +141,17 @@ func (c *clinicBranchRepo) GetList(ctx context.Context, request models.GetListRe
 			&clinicBranch.Phone,
 			&clinicBranch.WorkingTime,
 			&clinicBranch.CreatedAt,
-			&clinicBranch.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning clinic branch data", err.Error())
 			return models.ClinicBranchsResponse{}, err
 		}
+
+
+	if updatedAt.Valid {
+		clinicBranch.UpdatedAt = updatedAt.Time
+	}
+
 
 		clinicBranchs = append(clinicBranchs, clinicBranch)
 

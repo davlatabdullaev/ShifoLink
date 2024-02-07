@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -65,6 +66,8 @@ func (c *clinicAdminRepo) Create(ctx context.Context, request models.CreateClini
 
 func (c *clinicAdminRepo) Get(ctx context.Context, request models.PrimaryKey) (models.ClinicAdmin, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	clinicAdmin := models.ClinicAdmin{}
 
 	query := `select 
@@ -100,12 +103,16 @@ func (c *clinicAdminRepo) Get(ctx context.Context, request models.PrimaryKey) (m
 		&clinicAdmin.Age,
 		&clinicAdmin.Address,
 		&clinicAdmin.CreatedAt,
-		&clinicAdmin.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting clinic admin", err.Error())
 		return models.ClinicAdmin{}, err
+	}
+
+	if updatedAt.Valid {
+		clinicAdmin.UpdatedAt = updatedAt.Time
 	}
 
 	return clinicAdmin, nil
@@ -114,6 +121,7 @@ func (c *clinicAdminRepo) Get(ctx context.Context, request models.PrimaryKey) (m
 func (c *clinicAdminRepo) GetList(ctx context.Context, request models.GetListRequest) (models.ClinicAdminsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		clinicAdmins      = []models.ClinicAdmin{}
 		count             = 0
 		query, countQuery string
@@ -175,10 +183,14 @@ func (c *clinicAdminRepo) GetList(ctx context.Context, request models.GetListReq
 			&clinicAdmin.Age,
 			&clinicAdmin.Address,
 			&clinicAdmin.CreatedAt,
-			&clinicAdmin.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning clinic admin data", err.Error())
 			return models.ClinicAdminsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			clinicAdmin.UpdatedAt = updatedAt.Time
 		}
 
 		clinicAdmins = append(clinicAdmins, clinicAdmin)

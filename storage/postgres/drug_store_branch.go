@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -52,6 +53,8 @@ func (d *drugStoreBranchRepo) Create(ctx context.Context, request models.CreateD
 
 func (d *drugStoreBranchRepo) Get(ctx context.Context, request models.PrimaryKey) (models.DrugStoreBranch, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	drugStoreBranch := models.DrugStoreBranch{}
 
 	query := `select 
@@ -73,12 +76,16 @@ func (d *drugStoreBranchRepo) Get(ctx context.Context, request models.PrimaryKey
 		&drugStoreBranch.Phone,
 		&drugStoreBranch.WorkingTime,
 		&drugStoreBranch.CreatedAt,
-		&drugStoreBranch.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting drug store branch ", err.Error())
 		return models.DrugStoreBranch{}, err
+	}
+
+	if updatedAt.Valid {
+		drugStoreBranch.UpdatedAt = updatedAt.Time
 	}
 
 	return drugStoreBranch, nil
@@ -88,6 +95,7 @@ func (d *drugStoreBranchRepo) Get(ctx context.Context, request models.PrimaryKey
 func (d *drugStoreBranchRepo) GetList(ctx context.Context, request models.GetListRequest) (models.DrugStoreBranchsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		drugStoreBranchs  = []models.DrugStoreBranch{}
 		count             = 0
 		query, countQuery string
@@ -135,10 +143,14 @@ func (d *drugStoreBranchRepo) GetList(ctx context.Context, request models.GetLis
 			&drugStoreBranch.Phone,
 			&drugStoreBranch.WorkingTime,
 			&drugStoreBranch.CreatedAt,
-			&drugStoreBranch.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning drug store branch data", err.Error())
 			return models.DrugStoreBranchsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			drugStoreBranch.UpdatedAt = updatedAt.Time
 		}
 
 		drugStoreBranchs = append(drugStoreBranchs, drugStoreBranch)

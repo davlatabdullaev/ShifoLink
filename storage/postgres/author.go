@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -52,6 +53,8 @@ func (a *authorRepo) Create(ctx context.Context, request models.CreateAuthor) (s
 
 func (a *authorRepo) Get(ctx context.Context, request models.PrimaryKey) (models.Author, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	author := models.Author{}
 
 	query := `select 
@@ -83,12 +86,16 @@ func (a *authorRepo) Get(ctx context.Context, request models.PrimaryKey) (models
 		&author.Age,
 		&author.Address,
 		&author.CreatedAt,
-		&author.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting author", err.Error())
 		return models.Author{}, err
+	}
+
+	if updatedAt.Valid {
+		author.UpdatedAt = updatedAt.Time
 	}
 
 	return author, nil
@@ -97,6 +104,7 @@ func (a *authorRepo) Get(ctx context.Context, request models.PrimaryKey) (models
 func (a *authorRepo) GetList(ctx context.Context, request models.GetListRequest) (models.AuthorsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		authors           = []models.Author{}
 		count             = 0
 		query, countQuery string
@@ -154,10 +162,14 @@ func (a *authorRepo) GetList(ctx context.Context, request models.GetListRequest)
 			&author.Age,
 			&author.Address,
 			&author.CreatedAt,
-			&author.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning author data", err.Error())
 			return models.AuthorsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			author.UpdatedAt = updatedAt.Time
 		}
 
 		authors = append(authors, author)

@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -67,6 +68,8 @@ func (s *superAdminRepo) Create(ctx context.Context, request models.CreateSuperA
 
 func (s *superAdminRepo) Get(ctx context.Context, request models.PrimaryKey) (models.SuperAdmin, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	superAdmin := models.SuperAdmin{}
 
 	query := `select 
@@ -104,12 +107,16 @@ func (s *superAdminRepo) Get(ctx context.Context, request models.PrimaryKey) (mo
 		&superAdmin.Age,
 		&superAdmin.Address,
 		&superAdmin.CreatedAt,
-		&superAdmin.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting superAdmin", err.Error())
 		return models.SuperAdmin{}, err
+	}
+
+	if updatedAt.Valid {
+		superAdmin.UpdatedAt = updatedAt.Time
 	}
 
 	return superAdmin, nil
@@ -119,6 +126,7 @@ func (s *superAdminRepo) Get(ctx context.Context, request models.PrimaryKey) (mo
 func (s *superAdminRepo) GetList(ctx context.Context, request models.GetListRequest) (models.SuperAdminsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		superAdmins       = []models.SuperAdmin{}
 		count             = 0
 		query, countQuery string
@@ -182,10 +190,14 @@ func (s *superAdminRepo) GetList(ctx context.Context, request models.GetListRequ
 			&superAdmin.Age,
 			&superAdmin.Address,
 			&superAdmin.CreatedAt,
-			&superAdmin.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning super admin data", err.Error())
 			return models.SuperAdminsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			superAdmin.UpdatedAt = updatedAt.Time
 		}
 
 		superAdmins = append(superAdmins, superAdmin)

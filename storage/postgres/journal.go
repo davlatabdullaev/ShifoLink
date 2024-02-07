@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"shifolink/api/models"
@@ -50,6 +51,8 @@ func (j *journalRepo) Create(ctx context.Context, request models.CreateJournal) 
 
 func (j *journalRepo) Get(ctx context.Context, request models.PrimaryKey) (models.Journal, error) {
 
+	var updatedAt = sql.NullTime{}
+
 	journal := models.Journal{}
 
 	query := `select 
@@ -69,12 +72,16 @@ func (j *journalRepo) Get(ctx context.Context, request models.PrimaryKey) (model
 		&journal.Theme,
 		&journal.Article,
 		&journal.CreatedAt,
-		&journal.UpdatedAt,
+		&updatedAt,
 	)
 
 	if err != nil {
 		log.Println("error while selecting journal", err.Error())
 		return models.Journal{}, err
+	}
+
+	if updatedAt.Valid {
+		journal.UpdatedAt = updatedAt.Time
 	}
 
 	return journal, nil
@@ -83,6 +90,7 @@ func (j *journalRepo) Get(ctx context.Context, request models.PrimaryKey) (model
 func (j *journalRepo) GetList(ctx context.Context, request models.GetListRequest) (models.JournalsResponse, error) {
 
 	var (
+		updatedAt         = sql.NullTime{}
 		journals          = []models.Journal{}
 		count             = 0
 		query, countQuery string
@@ -128,10 +136,14 @@ func (j *journalRepo) GetList(ctx context.Context, request models.GetListRequest
 			&journal.Theme,
 			&journal.Article,
 			&journal.CreatedAt,
-			&journal.UpdatedAt,
+			&updatedAt,
 		); err != nil {
 			fmt.Println("error is while scanning journal data", err.Error())
 			return models.JournalsResponse{}, err
+		}
+
+		if updatedAt.Valid {
+			journal.UpdatedAt = updatedAt.Time
 		}
 
 		journals = append(journals, journal)
