@@ -33,11 +33,17 @@ func (o *orderDrugRepo) Create(ctx context.Context, request models.CreateOrderDr
 	  orders_id) 
 	  values ($1, $2, $3)`
 
-	_, err := o.pool.Exec(ctx, query,
+	rowsAffected, err := o.pool.Exec(ctx, query,
 		id,
 		request.DrugID,
 		request.OrdersID,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting order drug ", err.Error())
 		return "", err
@@ -160,11 +166,17 @@ func (o *orderDrugRepo) Update(ctx context.Context, request models.UpdateOrderDr
 	 where id = $4  
    `
 
-	_, err := o.pool.Exec(ctx, query,
+	rowsAffected, err := o.pool.Exec(ctx, query,
 		request.DrugID,
 		request.OrdersID,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating order drug data...", err.Error())
 		return "", err
@@ -181,7 +193,13 @@ func (o *orderDrugRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := o.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := o.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting order_drug  by id", err.Error())
 		return err

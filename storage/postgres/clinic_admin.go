@@ -42,7 +42,7 @@ func (c *clinicAdminRepo) Create(ctx context.Context, request models.CreateClini
 	  age, 
 	  address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		id,
 		request.ClinicBranchID,
 		request.DoctorTypeID,
@@ -56,6 +56,12 @@ func (c *clinicAdminRepo) Create(ctx context.Context, request models.CreateClini
 		check.CalculateAge(request.BirthDate),
 		request.Address,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting clinic_admin", err.Error())
 		return "", err
@@ -217,7 +223,7 @@ func (c *clinicAdminRepo) Update(ctx context.Context, request models.UpdateClini
    where id = $9  
    `
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		request.ClinicBranchID,
 		request.DoctorTypeID,
 		request.FirstName,
@@ -227,6 +233,12 @@ func (c *clinicAdminRepo) Update(ctx context.Context, request models.UpdateClini
 		request.Address,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating clinic admin data...", err.Error())
 		return "", err
@@ -243,7 +255,13 @@ func (c *clinicAdminRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := c.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := c.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting clinic admin by id", err.Error())
 		return err
@@ -259,7 +277,14 @@ func (c *clinicAdminRepo) UpdatePassword(ctx context.Context, request models.Upd
 				set password = $1, updated_at = now()
 					where id = $2`
 
-	if _, err := c.pool.Exec(ctx, query, request.NewPassword, request.ID); err != nil {
+	rowsAffected, err := c.pool.Exec(ctx, query, request.NewPassword, request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
+	if err != nil {
 		fmt.Println("error while updating password for clinic admin", err.Error())
 		return err
 	}

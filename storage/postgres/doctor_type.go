@@ -34,12 +34,18 @@ func (d *doctorTypeRepo) Create(ctx context.Context, request models.CreateDoctor
 	  clinic_branch_id ) 
 	  values ($1, $2, $3, $4)`
 
-	_, err := d.pool.Exec(ctx, query,
+	rowsAffected, err := d.pool.Exec(ctx, query,
 		id,
 		request.Name,
 		request.Description,
 		request.ClinicBranchID,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting doctor type", err.Error())
 		return "", err
@@ -162,16 +168,22 @@ func (d *doctorTypeRepo) Update(ctx context.Context, request models.UpdateDoctor
 	name = $1,
 	description = $2,
 	clinic_branch_id = $3
-    updated_at = $4, 
+    updated_at = $4 
 	 where id = $5  
    `
 
-	_, err := d.pool.Exec(ctx, query,
+	rowsAffected, err := d.pool.Exec(ctx, query,
 		request.Name,
 		request.Description,
 		request.ClinicBranchID,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating doctor type data...", err.Error())
 		return "", err
@@ -189,7 +201,13 @@ func (d *doctorTypeRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := d.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := d.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting doctor type by id", err.Error())
 		return err

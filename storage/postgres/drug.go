@@ -38,7 +38,7 @@ func (d *drugRepo) Create(ctx context.Context, request models.CreateDrug) (strin
 	  best_before) 
 	  values ($1, $2, $3, $4, $5, $6, $7, $8)`
 
-	_, err := d.pool.Exec(ctx, query,
+	rowsAffected, err := d.pool.Exec(ctx, query,
 		id,
 		request.DrugStoreBranchID,
 		request.Name,
@@ -48,6 +48,12 @@ func (d *drugRepo) Create(ctx context.Context, request models.CreateDrug) (strin
 		request.DateOfManufacture,
 		request.BestBefore,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting drug ", err.Error())
 		return "", err
@@ -188,12 +194,12 @@ func (d *drugRepo) Update(ctx context.Context, request models.UpdateDrug) (strin
 	name = $2,
 	description = $3,
 	count = $4,
-	price = $5
-    updated_at = $6, 
+	price = $5,
+    updated_at = $6 
 	 where id = $7  
    `
 
-	_, err := d.pool.Exec(ctx, query,
+	rowsAffected, err := d.pool.Exec(ctx, query,
 		request.DrugStoreBranchID,
 		request.Name,
 		request.Description,
@@ -201,6 +207,12 @@ func (d *drugRepo) Update(ctx context.Context, request models.UpdateDrug) (strin
 		request.Count,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating drug data...", err.Error())
 		return "", err
@@ -218,7 +230,13 @@ func (d *drugRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := d.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := d.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting drug by id", err.Error())
 		return err

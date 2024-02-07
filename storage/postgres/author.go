@@ -30,7 +30,7 @@ func (a *authorRepo) Create(ctx context.Context, request models.CreateAuthor) (s
 
 	query := `insert into author (id, first_name, last_name, email, password, phone, gender, birth_date, age, address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
 
-	_, err := a.pool.Exec(ctx, query,
+	rowsAffected, err := a.pool.Exec(ctx, query,
 		id,
 		request.FirstName,
 		request.LastName,
@@ -42,6 +42,12 @@ func (a *authorRepo) Create(ctx context.Context, request models.CreateAuthor) (s
 		check.CalculateAge(request.BirthDate),
 		request.Address,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting author", err.Error())
 		return "", err
@@ -194,7 +200,7 @@ func (a *authorRepo) Update(ctx context.Context, request models.UpdateAuthor) (s
    where id = $7  
    `
 
-	_, err := a.pool.Exec(ctx, query,
+	rowsAffected, err := a.pool.Exec(ctx, query,
 		request.FirstName,
 		request.LastName,
 		request.Email,
@@ -202,6 +208,12 @@ func (a *authorRepo) Update(ctx context.Context, request models.UpdateAuthor) (s
 		request.Address,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating author data...", err.Error())
 		return "", err
@@ -218,7 +230,13 @@ func (a *authorRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := a.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := a.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting author by id", err.Error())
 		return err
@@ -234,8 +252,15 @@ func (a *authorRepo) UpdatePassword(ctx context.Context, request models.UpdateAu
 				set password = $1, updated_at = now()
 					where id = $2`
 
-	if _, err := a.pool.Exec(ctx, query, request.NewPassword, request.ID); err != nil {
-		fmt.Println("error while updating password for author", err.Error())
+	rowsAffected, err := a.pool.Exec(ctx, query, request.NewPassword, request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
+	if err != nil {
+		log.Println("error while updating password for author", err.Error())
 		return err
 	}
 

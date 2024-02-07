@@ -41,7 +41,7 @@ func (p *pharmacistRepo) Create(ctx context.Context, request models.CreatePharma
 		age, 
 		address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
 
-	_, err := p.pool.Exec(ctx, query,
+	rowsAffected, err := p.pool.Exec(ctx, query,
 		id,
 		request.DrugStoreBranchID,
 		request.FirstName,
@@ -54,6 +54,12 @@ func (p *pharmacistRepo) Create(ctx context.Context, request models.CreatePharma
 		check.CalculateAge(request.BirthDate),
 		request.Address,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting pharmacist", err.Error())
 		return "", err
@@ -212,7 +218,7 @@ func (p *pharmacistRepo) Update(ctx context.Context, request models.UpdatePharma
    where id = $8
    `
 
-	_, err := p.pool.Exec(ctx, query,
+	rowsAffected, err := p.pool.Exec(ctx, query,
 		request.DrugStoreBranchID,
 		request.FirstName,
 		request.LastName,
@@ -221,6 +227,12 @@ func (p *pharmacistRepo) Update(ctx context.Context, request models.UpdatePharma
 		request.Address,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating pharmacist data...", err.Error())
 		return "", err
@@ -238,7 +250,13 @@ func (p *pharmacistRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := p.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := p.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting pharmacist by id", err.Error())
 		return err
@@ -254,7 +272,14 @@ func (p *pharmacistRepo) UpdatePassword(ctx context.Context, request models.Upda
 				set password = $1, updated_at = now()
 					where id = $2`
 
-	if _, err := p.pool.Exec(ctx, query, request.NewPassword, request.ID); err != nil {
+	rowsAffected, err := p.pool.Exec(ctx, query, request.NewPassword, request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
+	if err != nil {
 		fmt.Println("error while updating password for pharmacist", err.Error())
 		return err
 	}

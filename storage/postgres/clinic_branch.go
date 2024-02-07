@@ -35,13 +35,19 @@ func (c *clinicBranchRepo) Create(ctx context.Context, request models.CreateClin
 	  working_time) 
 	  values ($1, $2, $3, $4, $5)`
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		id,
 		request.ClinicID,
 		request.Address,
 		request.Phone,
 		request.WorkingTime,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting clinic_admin", err.Error())
 		return "", err
@@ -147,11 +153,9 @@ func (c *clinicBranchRepo) GetList(ctx context.Context, request models.GetListRe
 			return models.ClinicBranchsResponse{}, err
 		}
 
-
-	if updatedAt.Valid {
-		clinicBranch.UpdatedAt = updatedAt.Time
-	}
-
+		if updatedAt.Valid {
+			clinicBranch.UpdatedAt = updatedAt.Time
+		}
 
 		clinicBranchs = append(clinicBranchs, clinicBranch)
 
@@ -174,13 +178,19 @@ func (c *clinicBranchRepo) Update(ctx context.Context, request models.UpdateClin
 	 where id = $6  
    `
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		request.ClinicID,
 		request.Address,
 		request.Phone,
 		request.WorkingTime,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating clinic branch data...", err.Error())
 		return "", err
@@ -197,7 +207,13 @@ func (c *clinicBranchRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := c.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := c.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting clinic branch by id", err.Error())
 		return err

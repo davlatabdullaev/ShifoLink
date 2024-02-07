@@ -34,12 +34,18 @@ func (q *queueRepo) Create(ctx context.Context, request models.CreateQueue) (str
 	  queue_time) 
 	  values ($1, $2, $3, $4)`
 
-	_, err := q.pool.Exec(ctx, query,
+	rowsAffected, err := q.pool.Exec(ctx, query,
 		id,
 		request.CustomerID,
 		request.DoctorID,
 		request.QueueTime,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting queue ", err.Error())
 		return "", err
@@ -170,12 +176,18 @@ func (q *queueRepo) Update(ctx context.Context, request models.UpdateQueue) (str
 	 where id = $5  
    `
 
-	_, err := q.pool.Exec(ctx, query,
+	rowsAffected, err := q.pool.Exec(ctx, query,
 		request.CustomerID,
 		request.DoctorID,
 		request.QueueTime,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating queue data...", err.Error())
 		return "", err
@@ -193,7 +205,13 @@ func (q *queueRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := q.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := q.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting queue  by id", err.Error())
 		return err

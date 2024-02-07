@@ -43,7 +43,7 @@ func (s *superAdminRepo) Create(ctx context.Context, request models.CreateSuperA
 		age, 
 		address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`
 
-	_, err := s.pool.Exec(ctx, query,
+	rowsAffected, err := s.pool.Exec(ctx, query,
 		id,
 		request.ClinicID,
 		request.DrugStoreID,
@@ -58,6 +58,12 @@ func (s *superAdminRepo) Create(ctx context.Context, request models.CreateSuperA
 		check.CalculateAge(request.BirthDate),
 		request.Address,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting super_admin", err.Error())
 		return "", err
@@ -225,7 +231,7 @@ func (s *superAdminRepo) Update(ctx context.Context, request models.UpdateSuperA
    where id = $10
    `
 
-	_, err := s.pool.Exec(ctx, query,
+	rowsAffected, err := s.pool.Exec(ctx, query,
 		request.ClinicID,
 		request.DrugStoreID,
 		request.AuthorID,
@@ -236,6 +242,12 @@ func (s *superAdminRepo) Update(ctx context.Context, request models.UpdateSuperA
 		request.Address,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating super admin data...", err.Error())
 		return "", err
@@ -253,7 +265,13 @@ func (s *superAdminRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := s.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := s.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting super admin by id", err.Error())
 		return err
@@ -270,7 +288,14 @@ func (s *superAdminRepo) UpdatePassword(ctx context.Context, request models.Upda
 				set password = $1, updated_at = now()
 					where id = $2`
 
-	if _, err := s.pool.Exec(ctx, query, request.NewPassword, request.ID); err != nil {
+	rowsAffected, err := s.pool.Exec(ctx, query, request.NewPassword, request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
+	if err != nil {
 		fmt.Println("error while updating password for super_admin", err.Error())
 		return err
 	}

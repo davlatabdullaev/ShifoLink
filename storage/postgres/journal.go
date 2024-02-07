@@ -34,12 +34,18 @@ func (j *journalRepo) Create(ctx context.Context, request models.CreateJournal) 
 	  article) 
 	  values ($1, $2, $3, $4)`
 
-	_, err := j.pool.Exec(ctx, query,
+	rowsAffected, err := j.pool.Exec(ctx, query,
 		id,
 		request.AuthorID,
 		request.Theme,
 		request.Article,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting journal ", err.Error())
 		return "", err
@@ -166,12 +172,18 @@ func (j *journalRepo) Update(ctx context.Context, request models.UpdateJournal) 
 	 where id = $5  
    `
 
-	_, err := j.pool.Exec(ctx, query,
+	rowsAffected, err := j.pool.Exec(ctx, query,
 		request.AuthorID,
 		request.Theme,
 		request.Article,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating journal data...", err.Error())
 		return "", err
@@ -189,7 +201,13 @@ func (j *journalRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := j.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := j.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting journal  by id", err.Error())
 		return err

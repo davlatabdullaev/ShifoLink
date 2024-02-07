@@ -35,13 +35,19 @@ func (d *drugStoreBranchRepo) Create(ctx context.Context, request models.CreateD
 	  working_time) 
 	  values ($1, $2, $3, $4, $5)`
 
-	_, err := d.pool.Exec(ctx, query,
+	rowsAffected, err := d.pool.Exec(ctx, query,
 		id,
 		request.DrugStoreID,
 		request.Address,
 		request.Phone,
 		request.WorkingTime,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting drug store branch", err.Error())
 		return "", err
@@ -175,13 +181,19 @@ func (d *drugStoreBranchRepo) Update(ctx context.Context, request models.UpdateD
 	 where id = $6  
    `
 
-	_, err := d.pool.Exec(ctx, query,
+	rowsAffected, err := d.pool.Exec(ctx, query,
 		request.DrugStoreID,
 		request.Address,
 		request.Phone,
 		request.WorkingTime,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating drug store branch data...", err.Error())
 		return "", err
@@ -198,7 +210,13 @@ func (d *drugStoreBranchRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := d.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := d.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting drug store branch by id", err.Error())
 		return err

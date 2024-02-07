@@ -30,7 +30,7 @@ func (c *customerRepo) Create(ctx context.Context, request models.CreateCustomer
 
 	query := `insert into customer (id, first_name, last_name, email, password, phone, gender, birth_date, age, address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		id,
 		request.FirstName,
 		request.LastName,
@@ -42,6 +42,12 @@ func (c *customerRepo) Create(ctx context.Context, request models.CreateCustomer
 		check.CalculateAge(request.BirthDate),
 		request.Address,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting customer", err.Error())
 		return "", err
@@ -195,7 +201,7 @@ func (c *customerRepo) Update(ctx context.Context, request models.UpdateCustomer
    where id = $7  
    `
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		request.FirstName,
 		request.LastName,
 		request.Email,
@@ -203,6 +209,12 @@ func (c *customerRepo) Update(ctx context.Context, request models.UpdateCustomer
 		request.Address,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating customer data...", err.Error())
 		return "", err
@@ -220,7 +232,13 @@ func (c *customerRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := c.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := c.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting customer by id", err.Error())
 		return err
@@ -236,7 +254,14 @@ func (c *customerRepo) UpdatePassword(ctx context.Context, request models.Update
 				set password = $1, updated_at = now()
 					where id = $2`
 
-	if _, err := c.pool.Exec(ctx, query, request.NewPassword, request.ID); err != nil {
+	rowsAffected, err := c.pool.Exec(ctx, query, request.NewPassword, request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
+	if err != nil {
 		fmt.Println("error while updating password for customer", err.Error())
 		return err
 	}

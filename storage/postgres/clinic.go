@@ -33,11 +33,17 @@ func (c *clinicRepo) Create(ctx context.Context, request models.CreateClinic) (s
 	  description) 
 	  values ($1, $2, $3)`
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		id,
 		request.Name,
 		request.Description,
 	)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while inserting clinic", err.Error())
 		return "", err
@@ -158,11 +164,17 @@ func (c *clinicRepo) Update(ctx context.Context, request models.UpdateClinic) (s
 	 where id = $4  
    `
 
-	_, err := c.pool.Exec(ctx, query,
+	rowsAffected, err := c.pool.Exec(ctx, query,
 		request.Name,
 		request.Description,
 		time.Now(),
 		request.ID)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return "", err
+	}
+
 	if err != nil {
 		log.Println("error while updating clinic data...", err.Error())
 		return "", err
@@ -179,7 +191,13 @@ func (c *clinicRepo) Delete(ctx context.Context, id string) error {
 	  where id = $2
 	`
 
-	_, err := c.pool.Exec(ctx, query, time.Now(), id)
+	rowsAffected, err := c.pool.Exec(ctx, query, time.Now(), id)
+
+	if r := rowsAffected.RowsAffected(); r == 0 {
+		log.Println("error is while rows affected ", err.Error())
+		return err
+	}
+
 	if err != nil {
 		log.Println("error while deleting clinic by id", err.Error())
 		return err
