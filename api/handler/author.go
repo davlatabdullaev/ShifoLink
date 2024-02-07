@@ -213,3 +213,40 @@ func (h Handler) DeleteAuthor(c *gin.Context) {
 	handleResponse(c, "", http.StatusOK, "data succesfully deleted")
 
 }
+
+// UpdateAuthorPassword godoc
+// @Router       /author/{id} [PATCH]
+// @Summary      Update author password
+// @Description  update author password
+// @Tags         author
+// @Accept       json
+// @Produce      json
+// @Param 		 id path string true "author_id"
+// @Param        author body models.UpdateAuthorPassword true "author"
+// @Success      200  {object}  models.Response
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h Handler) UpdateUserPassword(c *gin.Context) {
+	updateAuthorPassword := models.UpdateAuthorPassword{}
+
+	if err := c.ShouldBindJSON(&updateAuthorPassword); err != nil {
+		handleResponse(c, "error while reading body", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	uid, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		handleResponse(c, "error while parsing uuid", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	updateAuthorPassword.ID = uid.String()
+
+	if err = h.storage.Author().UpdatePassword(context.Background(), updateAuthorPassword); err != nil {
+		handleResponse(c, "error while updating author password", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	handleResponse(c, "", http.StatusOK, "password successfully updated")
+}

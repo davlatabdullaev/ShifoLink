@@ -31,7 +31,7 @@ type IAuthorRepo interface {
 	GetList(context.Context, models.GetListRequest) (models.AuthorsResponse, error)
 	Update(context.Context, models.UpdateAuthor) (string, error)
 	Delete(context.Context, string) error
-	UpdatePassword(context.Context, string) error
+	UpdatePassword(context.Context, models.UpdateAuthorPassword) error
 }
 
 type IClinicAdminRepo interface {
@@ -40,7 +40,7 @@ type IClinicAdminRepo interface {
 	GetList(context.Context, models.GetListRequest) (models.ClinicAdminsResponse, error)
 	Update(context.Context, models.UpdateClinicAdmin) (string, error)
 	Delete(context.Context, string) error
-	UpdatePassword(context.Context, string) error
+	UpdatePassword(context.Context, models.UpdateClinicAdminPassword) error
 }
 
 type IClinicBranchRepo interface {
@@ -65,7 +65,7 @@ type ICustomerRepo interface {
 	GetList(context.Context, models.GetListRequest) (models.CustomersResponse, error)
 	Update(context.Context, models.UpdateCustomer) (string, error)
 	Delete(context.Context, string) error
-	UpdatePassword(context.Context, string) error
+	UpdatePassword(context.Context, models.UpdateCustomerPassword) error
 }
 
 type IDoctorTypeRepo interface {
@@ -82,7 +82,7 @@ type IDoctorRepo interface {
 	GetList(context.Context, models.GetListRequest) (models.DoctorsResponse, error)
 	Update(context.Context, models.UpdateDoctor) (string, error)
 	Delete(context.Context, string) error
-	UpdatePassword(context.Context, string) error
+	UpdatePassword(context.Context, models.UpdateDoctorPassword) error
 }
 
 type IDrugStoreBranchRepo interface {
@@ -139,7 +139,7 @@ type IPharmacistRepo interface {
 	GetList(context.Context, models.GetListRequest) (models.PharmacistsResponse, error)
 	Update(context.Context, models.UpdatePharmacist) (string, error)
 	Delete(context.Context, string) error
-	UpdatePassword(context.Context, string) error
+	UpdatePassword(context.Context, models.UpdatePharmacistPassword) error
 }
 
 type IQueueRepo interface {
@@ -156,5 +156,5 @@ type ISuperAdminRepo interface {
 	GetList(context.Context, models.GetListRequest) (models.SuperAdminsResponse, error)
 	Update(context.Context, models.UpdateSuperAdmin) (string, error)
 	Delete(context.Context, string) error
-	UpdatePassword(context.Context, string) error
+	UpdatePassword(context.Context, models.UpdateSuperAdminPassword) error
 }

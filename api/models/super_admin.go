@@ -48,7 +48,9 @@ type UpdateSuperAdmin struct {
 }
 
 type UpdateSuperAdminPassword struct {
-	Password string `json:"password"`
+	ID          string `json:"-"`
+	NewPassword string `json:"new_password"`
+	OldPassword string `json:"old_password"`
 }
 
 type SuperAdminsResponse struct {

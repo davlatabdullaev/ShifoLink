@@ -251,7 +251,17 @@ func (s *superAdminRepo) Delete(ctx context.Context, id string) error {
 
 }
 
-func (s *superAdminRepo) UpdatePassword(ctx context.Context, id string) error {
+func (s *superAdminRepo) UpdatePassword(ctx context.Context, request models.UpdateSuperAdminPassword) error {
+
+	query := `
+		update super_admin 
+				set password = $1, updated_at = now()
+					where id = $2`
+
+	if _, err := s.pool.Exec(ctx, query, request.NewPassword, request.ID); err != nil {
+		fmt.Println("error while updating password for super_admin", err.Error())
+		return err
+	}
 
 	return nil
 }

@@ -213,3 +213,40 @@ func (h Handler) DeleteSuperAdmin(c *gin.Context) {
 	handleResponse(c, "", http.StatusOK, "data succesfully deleted")
 
 }
+
+// UpdateSuperAdminPassword godoc
+// @Router       /super_admin/{id} [PATCH]
+// @Summary      Update super_admin password
+// @Description  update super_admin password
+// @Tags         super_admin
+// @Accept       json
+// @Produce      json
+// @Param 		 id path string true "super_admin"
+// @Param        super_admin body models.UpdateSuperAdminPassword true "super_admin"
+// @Success      200  {object}  models.Response
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h Handler) UpdateSuperAdminPassword(c *gin.Context) {
+	updateSuperAdminPassword := models.UpdateSuperAdminPassword{}
+
+	if err := c.ShouldBindJSON(&updateSuperAdminPassword); err != nil {
+		handleResponse(c, "error while reading body", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	uid, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		handleResponse(c, "error while parsing uuid", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	updateSuperAdminPassword.ID = uid.String()
+
+	if err = h.storage.SuperAdmin().UpdatePassword(context.Background(), updateSuperAdminPassword); err != nil {
+		handleResponse(c, "error while updating super_admin password", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	handleResponse(c, "", http.StatusOK, "password successfully updated")
+}

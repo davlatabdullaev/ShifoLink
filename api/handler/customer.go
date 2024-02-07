@@ -13,8 +13,8 @@ import (
 
 // CreateCustomer godoc
 // @Router       /customer [POST]
-// @Summary      Create a new customer 
-// @Description  Create a new customer 
+// @Summary      Create a new customer
+// @Description  Create a new customer
 // @Tags         customer
 // @Accept       json
 // @Produce      json
@@ -186,7 +186,7 @@ func (h Handler) UpdateCustomer(c *gin.Context) {
 
 // DeleteCustomer godoc
 // @Router       /customer/{id} [DELETE]
-// @Summary      Delete customer 
+// @Summary      Delete customer
 // @Description  Delete customer
 // @Tags         customer
 // @Accept       json
@@ -212,4 +212,41 @@ func (h Handler) DeleteCustomer(c *gin.Context) {
 
 	handleResponse(c, "", http.StatusOK, "data succesfully deleted")
 
+}
+
+// UpdateCustomerPassword godoc
+// @Router       /customer/{id} [PATCH]
+// @Summary      Update customer password
+// @Description  update customer password
+// @Tags         customer
+// @Accept       json
+// @Produce      json
+// @Param 		 id path string true "customer"
+// @Param        customer body models.UpdateCustomerPassword true "customer"
+// @Success      200  {object}  models.Response
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h Handler) UpdateCustomerPassword(c *gin.Context) {
+	updateCustomerPassword := models.UpdateCustomerPassword{}
+
+	if err := c.ShouldBindJSON(&updateCustomerPassword); err != nil {
+		handleResponse(c, "error while reading body", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	uid, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		handleResponse(c, "error while parsing uuid", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	updateCustomerPassword.ID = uid.String()
+
+	if err = h.storage.Customer().UpdatePassword(context.Background(), updateCustomerPassword); err != nil {
+		handleResponse(c, "error while updating customer password", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	handleResponse(c, "", http.StatusOK, "password successfully updated")
 }

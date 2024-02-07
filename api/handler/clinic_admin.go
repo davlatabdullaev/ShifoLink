@@ -213,3 +213,40 @@ func (h Handler) DeleteClinicAdmin(c *gin.Context) {
 	handleResponse(c, "", http.StatusOK, "data succesfully deleted")
 
 }
+
+// UpdateClinicAdminPassword godoc
+// @Router       /clinic_admin/{id} [PATCH]
+// @Summary      Update clinic admin password
+// @Description  update clinic admin password
+// @Tags         clinic_admin
+// @Accept       json
+// @Produce      json
+// @Param 		 id path string true "clinic admin"
+// @Param        clinic_admin body models.UpdateClinicAdminPassword true "clinic_admin"
+// @Success      200  {object}  models.Response
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h Handler) UpdateClinicAdminPassword(c *gin.Context) {
+	updateClinicAdminPassword := models.UpdateClinicAdminPassword{}
+
+	if err := c.ShouldBindJSON(&updateClinicAdminPassword); err != nil {
+		handleResponse(c, "error while reading body", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	uid, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		handleResponse(c, "error while parsing uuid", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	updateClinicAdminPassword.ID = uid.String()
+
+	if err = h.storage.ClinicAdmin().UpdatePassword(context.Background(), updateClinicAdminPassword); err != nil {
+		handleResponse(c, "error while updating clinic admin password", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	handleResponse(c, "", http.StatusOK, "password successfully updated")
+}

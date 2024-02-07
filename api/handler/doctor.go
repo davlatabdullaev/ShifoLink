@@ -13,8 +13,8 @@ import (
 
 // CreateDoctor godoc
 // @Router       /doctor [POST]
-// @Summary      Create a new doctor 
-// @Description  Create a new doctor 
+// @Summary      Create a new doctor
+// @Description  Create a new doctor
 // @Tags         doctor
 // @Accept       json
 // @Produce      json
@@ -186,8 +186,8 @@ func (h Handler) UpdateDoctor(c *gin.Context) {
 
 // DeleteDoctor godoc
 // @Router       /doctor/{id} [DELETE]
-// @Summary      Delete doctor 
-// @Description  Delete doctor 
+// @Summary      Delete doctor
+// @Description  Delete doctor
 // @Tags         doctor
 // @Accept       json
 // @Produce      json
@@ -212,4 +212,41 @@ func (h Handler) DeleteDoctor(c *gin.Context) {
 
 	handleResponse(c, "", http.StatusOK, "data succesfully deleted")
 
+}
+
+// UpdateDoctorPassword godoc
+// @Router       /doctor/{id} [PATCH]
+// @Summary      Update doctor password
+// @Description  update doctor password
+// @Tags         doctor
+// @Accept       json
+// @Produce      json
+// @Param 		 id path string true "doctor"
+// @Param        doctor body models.UpdateDoctorPassword true "doctor"
+// @Success      200  {object}  models.Response
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h Handler) UpdateDoctorPassword(c *gin.Context) {
+	updateDoctorPassword := models.UpdateDoctorPassword{}
+
+	if err := c.ShouldBindJSON(&updateDoctorPassword); err != nil {
+		handleResponse(c, "error while reading body", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	uid, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		handleResponse(c, "error while parsing uuid", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	updateDoctorPassword.ID = uid.String()
+
+	if err = h.storage.Doctor().UpdatePassword(context.Background(), updateDoctorPassword); err != nil {
+		handleResponse(c, "error while updating doctor password", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	handleResponse(c, "", http.StatusOK, "password successfully updated")
 }

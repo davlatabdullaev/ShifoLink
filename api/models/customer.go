@@ -40,7 +40,9 @@ type UpdateCustomer struct {
 }
 
 type UpdateCustomerPassword struct {
-	Password string `json:"password"`
+	ID          string `json:"-"`
+	NewPassword string `json:"new_password"`
+	OldPassword string `json:"old_password"`
 }
 
 type CustomersResponse struct {

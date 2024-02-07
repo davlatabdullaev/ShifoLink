@@ -213,3 +213,40 @@ func (h Handler) DeletePharmacist(c *gin.Context) {
 	handleResponse(c, "", http.StatusOK, "data succesfully deleted")
 
 }
+
+// UpdatePharmacistPassword godoc
+// @Router       /pharmacist/{id} [PATCH]
+// @Summary      Update pharmacist password
+// @Description  update pharmacist password
+// @Tags         pharmacist
+// @Accept       json
+// @Produce      json
+// @Param 		 id path string true "pharmacist"
+// @Param        pharmacist body models.UpdatePharmacistPassword true "pharmacist"
+// @Success      200  {object}  models.Response
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h Handler) UpdatePharmacistPassword(c *gin.Context) {
+	updatePharmacistPassword := models.UpdatePharmacistPassword{}
+
+	if err := c.ShouldBindJSON(&updatePharmacistPassword); err != nil {
+		handleResponse(c, "error while reading body", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	uid, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		handleResponse(c, "error while parsing uuid", http.StatusBadRequest, err.Error())
+		return
+	}
+
+	updatePharmacistPassword.ID = uid.String()
+
+	if err = h.storage.Pharmacist().UpdatePassword(context.Background(), updatePharmacistPassword); err != nil {
+		handleResponse(c, "error while updating pharmacist password", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	handleResponse(c, "", http.StatusOK, "password successfully updated")
+}

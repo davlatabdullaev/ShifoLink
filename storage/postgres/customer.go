@@ -217,7 +217,17 @@ func (c *customerRepo) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (c *customerRepo) UpdatePassword(ctx context.Context, id string) error {
+func (c *customerRepo) UpdatePassword(ctx context.Context, request models.UpdateCustomerPassword) error {
+
+	query := `
+		update customer
+				set password = $1, updated_at = now()
+					where id = $2`
+
+	if _, err := c.pool.Exec(ctx, query, request.NewPassword, request.ID); err != nil {
+		fmt.Println("error while updating password for customer", err.Error())
+		return err
+	}
 
 	return nil
 }
