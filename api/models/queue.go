@@ -16,7 +16,6 @@ type Queue struct {
 type CreateQueue struct {
 	CustomerID  string `json:"customer_id"`
 	DoctorID    string `json:"doctor_id"`
-	QueueNumber string `json:"queue_number"`
 	QueueTime   string `json:"queue_time"`
 }
 

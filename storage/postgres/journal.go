@@ -168,7 +168,7 @@ func (j *journalRepo) Update(ctx context.Context, request models.UpdateJournal) 
 	author_id = $1,
 	theme = $2,
 	article = $3,
-    updated_at = $4, 
+    updated_at = $4 
 	 where id = $5  
    `
 

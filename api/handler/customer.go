@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"shifolink/api/models"
+	"shifolink/pkg/check"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -242,6 +243,22 @@ func (h Handler) UpdateCustomerPassword(c *gin.Context) {
 	}
 
 	updateCustomerPassword.ID = uid.String()
+
+	oldPassword, err := h.storage.Customer().GetPassword(c, updateCustomerPassword.ID)
+	if err != nil {
+		handleResponse(c, "error while getting password by id", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if oldPassword != updateCustomerPassword.OldPassword {
+		handleResponse(c, "old password is not correct", http.StatusBadRequest, "old password is not correct")
+		return
+	}
+
+	if err = check.ValidatePassword(updateCustomerPassword.NewPassword); err != nil {
+		handleResponse(c, "new password is weak", http.StatusBadRequest, err.Error())
+		return
+	}
 
 	if err = h.storage.Customer().UpdatePassword(context.Background(), updateCustomerPassword); err != nil {
 		handleResponse(c, "error while updating customer password", http.StatusInternalServerError, err.Error())

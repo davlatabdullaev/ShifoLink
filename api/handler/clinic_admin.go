@@ -252,7 +252,7 @@ func (h Handler) UpdateClinicAdminPassword(c *gin.Context) {
 	}
 
 	if oldPassword != updateClinicAdminPassword.OldPassword{
-		handleResponse(c, "old password is not coorect", http.StatusBadRequest, "old password is not correct")
+		handleResponse(c, "old password is not correct", http.StatusBadRequest, "old password is not correct")
 		return
 	}
 

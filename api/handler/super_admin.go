@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"shifolink/api/models"
+	"shifolink/pkg/check"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -242,6 +243,22 @@ func (h Handler) UpdateSuperAdminPassword(c *gin.Context) {
 	}
 
 	updateSuperAdminPassword.ID = uid.String()
+
+	oldPassword, err := h.storage.SuperAdmin().GetPassword(c, updateSuperAdminPassword.ID)
+	if err != nil {
+		handleResponse(c, "error while getting password by id", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if oldPassword != updateSuperAdminPassword.OldPassword {
+		handleResponse(c, "old password is not correct", http.StatusBadRequest, "old password is not correct")
+		return
+	}
+
+	if err = check.ValidatePassword(updateSuperAdminPassword.NewPassword); err != nil {
+		handleResponse(c, "new password is weak", http.StatusBadRequest, err.Error())
+		return
+	}
 
 	if err = h.storage.SuperAdmin().UpdatePassword(context.Background(), updateSuperAdminPassword); err != nil {
 		handleResponse(c, "error while updating super_admin password", http.StatusInternalServerError, err.Error())

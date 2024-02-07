@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"shifolink/api/models"
+	"shifolink/pkg/check"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -85,7 +86,7 @@ func (h Handler) GetAuthorByID(c *gin.Context) {
 }
 
 // GetAuthorsList godoc
-// @Router       /authors [GET]
+// @Router       /author [GET]
 // @Summary      Get authors list
 // @Description  Get authors list
 // @Tags         author
@@ -242,6 +243,22 @@ func (h Handler) UpdateAuthorPassword(c *gin.Context) {
 	}
 
 	updateAuthorPassword.ID = uid.String()
+
+	oldPassword, err := h.storage.Author().GetPassword(c, updateAuthorPassword.ID)
+	if err != nil {
+		handleResponse(c, "error while getting password by id", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if oldPassword != updateAuthorPassword.OldPassword {
+		handleResponse(c, "old password is not correct", http.StatusBadRequest, "old password is not correct")
+		return
+	}
+
+	if err = check.ValidatePassword(updateAuthorPassword.NewPassword); err != nil {
+		handleResponse(c, "new password is weak", http.StatusBadRequest, err.Error())
+		return
+	}
 
 	if err = h.storage.Author().UpdatePassword(context.Background(), updateAuthorPassword); err != nil {
 		handleResponse(c, "error while updating author password", http.StatusInternalServerError, err.Error())

@@ -89,7 +89,7 @@ func (p *pharmacistRepo) Get(ctx context.Context, request models.PrimaryKey) (mo
 	 address, 
 	 created_at, 
 	 updated_at 
-	 from doctor where deleted_at is null and id = $1`
+	 from pharmacist where deleted_at is null and id = $1`
 
 	row := p.pool.QueryRow(ctx, query, request.ID)
 

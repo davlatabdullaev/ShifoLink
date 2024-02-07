@@ -32,6 +32,7 @@ type IAuthorRepo interface {
 	Update(context.Context, models.UpdateAuthor) (string, error)
 	Delete(context.Context, string) error
 	UpdatePassword(context.Context, models.UpdateAuthorPassword) error
+	GetPassword(context.Context, string) (string, error)
 }
 
 type IClinicAdminRepo interface {
@@ -67,6 +68,7 @@ type ICustomerRepo interface {
 	Update(context.Context, models.UpdateCustomer) (string, error)
 	Delete(context.Context, string) error
 	UpdatePassword(context.Context, models.UpdateCustomerPassword) error
+	GetPassword(context.Context, string) (string, error)
 }
 
 type IDoctorTypeRepo interface {
@@ -84,6 +86,7 @@ type IDoctorRepo interface {
 	Update(context.Context, models.UpdateDoctor) (string, error)
 	Delete(context.Context, string) error
 	UpdatePassword(context.Context, models.UpdateDoctorPassword) error
+	GetPassword(context.Context, string) (string, error)
 }
 
 type IDrugStoreBranchRepo interface {
@@ -141,6 +144,7 @@ type IPharmacistRepo interface {
 	Update(context.Context, models.UpdatePharmacist) (string, error)
 	Delete(context.Context, string) error
 	UpdatePassword(context.Context, models.UpdatePharmacistPassword) error
+	GetPassword(context.Context, string) (string, error)
 }
 
 type IQueueRepo interface {
@@ -158,4 +162,5 @@ type ISuperAdminRepo interface {
 	Update(context.Context, models.UpdateSuperAdmin) (string, error)
 	Delete(context.Context, string) error
 	UpdatePassword(context.Context, models.UpdateSuperAdminPassword) error
+	GetPassword(context.Context, string) (string, error)
 }

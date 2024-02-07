@@ -329,8 +329,6 @@ definitions:
         type: string
       doctor_id:
         type: string
-      queue_number:
-        type: string
       queue_time:
         type: string
     type: object
@@ -831,8 +829,6 @@ definitions:
         type: string
       last_name:
         type: string
-      password:
-        type: string
       phone:
         type: string
     type: object
@@ -901,7 +897,7 @@ definitions:
     properties:
       description:
         type: string
-      drug_store:
+      id:
         type: string
       name:
         type: string
@@ -1018,6 +1014,45 @@ info:
   version: 1.0.0
 paths:
   /author:
+    get:
+      consumes:
+      - application/json
+      description: Get authors list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AuthorsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get authors list
+      tags:
+      - author
     post:
       consumes:
       - application/json
@@ -1190,46 +1225,6 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       summary: Update author by id
-      tags:
-      - author
-  /authors:
-    get:
-      consumes:
-      - application/json
-      description: Get authors list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.AuthorsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get authors list
       tags:
       - author
   /clinic:
