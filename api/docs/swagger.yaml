@@ -110,6 +110,8 @@ definitions:
         type: string
       updated_at:
         type: string
+      working_time:
+        type: string
     type: object
   models.ClinicBranchsResponse:
     properties:
@@ -186,6 +188,8 @@ definitions:
         type: string
       phone:
         type: string
+      working_time:
+        type: string
     type: object
   models.CreateCustomer:
     properties:
@@ -254,6 +258,8 @@ definitions:
         type: string
       name:
         type: string
+      price:
+        type: string
     type: object
   models.CreateDrugStore:
     properties:
@@ -269,6 +275,8 @@ definitions:
       drug_store_id:
         type: string
       phone:
+        type: string
+      working_time:
         type: string
     type: object
   models.CreateJournal:
@@ -479,6 +487,8 @@ definitions:
         type: string
       name:
         type: string
+      price:
+        type: string
       updated_at:
         type: string
     type: object
@@ -512,6 +522,8 @@ definitions:
       phone:
         type: string
       updated_at:
+        type: string
+      working_time:
         type: string
     type: object
   models.DrugStoreBranchsResponse:
@@ -743,14 +755,25 @@ definitions:
         type: string
       first_name:
         type: string
+      id:
+        type: string
       last_name:
         type: string
       phone:
         type: string
     type: object
+  models.UpdateAuthorPassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+    type: object
   models.UpdateClinic:
     properties:
       description:
+        type: string
+      id:
         type: string
       name:
         type: string
@@ -767,9 +790,18 @@ definitions:
         type: string
       first_name:
         type: string
+      id:
+        type: string
       last_name:
         type: string
       phone:
+        type: string
+    type: object
+  models.UpdateClinicAdminPassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
         type: string
     type: object
   models.UpdateClinicBranch:
@@ -778,7 +810,11 @@ definitions:
         type: string
       clinic_id:
         type: string
+      id:
+        type: string
       phone:
+        type: string
+      working_time:
         type: string
     type: object
   models.UpdateCustomer:
@@ -789,11 +825,20 @@ definitions:
         type: string
       first_name:
         type: string
+      id:
+        type: string
       last_name:
         type: string
       password:
         type: string
       phone:
+        type: string
+    type: object
+  models.UpdateCustomerPassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
         type: string
     type: object
   models.UpdateDoctor:
@@ -806,6 +851,8 @@ definitions:
         type: string
       first_name:
         type: string
+      id:
+        type: string
       last_name:
         type: string
       phone:
@@ -815,33 +862,44 @@ definitions:
       working_time:
         type: string
     type: object
+  models.UpdateDoctorPassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+    type: object
   models.UpdateDoctorType:
     properties:
       clinic_branch_id:
         type: string
       description:
         type: string
+      id:
+        type: string
       name:
         type: string
     type: object
   models.UpdateDrug:
     properties:
-      best_before:
-        type: string
       count:
         type: integer
-      date_of_manufacture:
-        type: string
       description:
         type: string
       drug_store_branch_id:
         type: string
+      id:
+        type: string
       name:
+        type: string
+      price:
         type: string
     type: object
   models.UpdateDrugStore:
     properties:
       description:
+        type: string
+      drug_store:
         type: string
       name:
         type: string
@@ -852,7 +910,11 @@ definitions:
         type: string
       drug_store_id:
         type: string
+      id:
+        type: string
       phone:
+        type: string
+      working_time:
         type: string
     type: object
   models.UpdateJournal:
@@ -861,6 +923,8 @@ definitions:
         type: string
       author_id:
         type: string
+      id:
+        type: string
       theme:
         type: string
     type: object
@@ -868,12 +932,16 @@ definitions:
     properties:
       drug_id:
         type: string
+      id:
+        type: string
       orders_id:
         type: string
     type: object
   models.UpdateOrders:
     properties:
       customer_id:
+        type: string
+      id:
         type: string
       pharmacist_id:
         type: string
@@ -888,9 +956,18 @@ definitions:
         type: string
       first_name:
         type: string
+      id:
+        type: string
       last_name:
         type: string
       phone:
+        type: string
+    type: object
+  models.UpdatePharmacistPassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
         type: string
     type: object
   models.UpdateQueue:
@@ -899,7 +976,7 @@ definitions:
         type: string
       doctor_id:
         type: string
-      queue_number:
+      id:
         type: string
       queue_time:
         type: string
@@ -918,9 +995,18 @@ definitions:
         type: string
       first_name:
         type: string
+      id:
+        type: string
       last_name:
         type: string
       phone:
+        type: string
+    type: object
+  models.UpdateSuperAdminPassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
         type: string
     type: object
 info:
@@ -1028,6 +1114,44 @@ paths:
       summary: Get author by id
       tags:
       - author
+    patch:
+      consumes:
+      - application/json
+      description: update author password
+      parameters:
+      - description: author_id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: author
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateAuthorPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update author password
+      tags:
+      - author
     put:
       consumes:
       - application/json
@@ -1107,6 +1231,45 @@ paths:
       tags:
       - author
   /clinic:
+    get:
+      consumes:
+      - application/json
+      description: Get clinics list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinics list
+      tags:
+      - clinic
     post:
       consumes:
       - application/json
@@ -1244,6 +1407,45 @@ paths:
       tags:
       - clinic
   /clinic_admin:
+    get:
+      consumes:
+      - application/json
+      description: Get clinic admins list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ClinicAdminsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get clinic admins list
+      tags:
+      - clinic_admin
     post:
       consumes:
       - application/json
@@ -1342,6 +1544,44 @@ paths:
       summary: Get clinic admin by id
       tags:
       - clinic_admin
+    patch:
+      consumes:
+      - application/json
+      description: update clinic admin password
+      parameters:
+      - description: clinic admin
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: clinic_admin
+        in: body
+        name: clinic_admin
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateClinicAdminPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update clinic admin password
+      tags:
+      - clinic_admin
     put:
       consumes:
       - application/json
@@ -1380,11 +1620,11 @@ paths:
       summary: Update clinic admin by id
       tags:
       - clinic_admin
-  /clinic_admins:
+  /clinic_branch:
     get:
       consumes:
       - application/json
-      description: Get clinic admins list
+      description: Get clinic branchs list
       parameters:
       - description: page
         in: query
@@ -1404,7 +1644,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.ClinicAdminsResponse'
+            $ref: '#/definitions/models.ClinicBranchsResponse'
         "400":
           description: Bad Request
           schema:
@@ -1417,10 +1657,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Response'
-      summary: Get clinic admins list
+      summary: Get clinic branchs list
       tags:
-      - clinic_admin
-  /clinic_branch:
+      - clinic_branch
     post:
       consumes:
       - application/json
@@ -1557,87 +1796,46 @@ paths:
       summary: Update clinic branch by id
       tags:
       - clinic_branch
-  /clinic_branchs:
-    get:
-      consumes:
-      - application/json
-      description: Get clinic branchs list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.ClinicBranchsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get clinic branchs list
-      tags:
-      - clinic_branch
-  /clinics:
-    get:
-      consumes:
-      - application/json
-      description: Get clinics list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.ClinicsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get clinics list
-      tags:
-      - clinic
   /customer:
+    get:
+      consumes:
+      - application/json
+      description: Get customers list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CustomersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get customers list
+      tags:
+      - customer
     post:
       consumes:
       - application/json
@@ -1736,6 +1934,44 @@ paths:
       summary: Get customer by id
       tags:
       - customer
+    patch:
+      consumes:
+      - application/json
+      description: update customer password
+      parameters:
+      - description: customer
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateCustomerPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update customer password
+      tags:
+      - customer
     put:
       consumes:
       - application/json
@@ -1774,11 +2010,11 @@ paths:
       summary: Update customer by id
       tags:
       - customer
-  /customers:
+  /doctor:
     get:
       consumes:
       - application/json
-      description: Get customers list
+      description: Get doctors list
       parameters:
       - description: page
         in: query
@@ -1798,7 +2034,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.CustomersResponse'
+            $ref: '#/definitions/models.DoctorsResponse'
         "400":
           description: Bad Request
           schema:
@@ -1811,10 +2047,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Response'
-      summary: Get customers list
+      summary: Get doctors list
       tags:
-      - customer
-  /doctor:
+      - doctor
     post:
       consumes:
       - application/json
@@ -1913,6 +2148,44 @@ paths:
       summary: Get doctor by id
       tags:
       - doctor
+    patch:
+      consumes:
+      - application/json
+      description: update doctor password
+      parameters:
+      - description: doctor
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: doctor
+        in: body
+        name: doctor
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDoctorPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update doctor password
+      tags:
+      - doctor
     put:
       consumes:
       - application/json
@@ -1952,6 +2225,45 @@ paths:
       tags:
       - doctor
   /doctor_type:
+    get:
+      consumes:
+      - application/json
+      description: Get doctor_types list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DoctorTypesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get doctor_types list
+      tags:
+      - doctor_type
     post:
       consumes:
       - application/json
@@ -2088,87 +2400,46 @@ paths:
       summary: Update doctor type by id
       tags:
       - doctor_type
-  /doctor_types:
-    get:
-      consumes:
-      - application/json
-      description: Get doctor_types list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.DoctorTypesResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get doctor_types list
-      tags:
-      - doctor_type
-  /doctors:
-    get:
-      consumes:
-      - application/json
-      description: Get doctors list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.DoctorsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get doctors list
-      tags:
-      - doctor
   /drug:
+    get:
+      consumes:
+      - application/json
+      description: Get drugs list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drugs list
+      tags:
+      - drug
     post:
       consumes:
       - application/json
@@ -2306,6 +2577,45 @@ paths:
       tags:
       - drug
   /drug_store:
+    get:
+      consumes:
+      - application/json
+      description: Get drug stores list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStoresResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drug stores list
+      tags:
+      - drug_store
     post:
       consumes:
       - application/json
@@ -2443,6 +2753,45 @@ paths:
       tags:
       - drug_store
   /drug_store_branch:
+    get:
+      consumes:
+      - application/json
+      description: Get drug store branchs list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DrugStoreBranchsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get drug store branchs list
+      tags:
+      - drug_store_branch
     post:
       consumes:
       - application/json
@@ -2579,127 +2928,46 @@ paths:
       summary: Update drug store branch by id
       tags:
       - drug_store_branch
-  /drug_store_branchs:
-    get:
-      consumes:
-      - application/json
-      description: Get drug store branchs list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.DrugStoreBranchsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get drug store branchs list
-      tags:
-      - drug_store_branch
-  /drug_stores:
-    get:
-      consumes:
-      - application/json
-      description: Get drug stores list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.DrugStoresResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get drug stores list
-      tags:
-      - drug_store
-  /drugs:
-    get:
-      consumes:
-      - application/json
-      description: Get drugs list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.DrugsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get drugs list
-      tags:
-      - drug
   /journal:
+    get:
+      consumes:
+      - application/json
+      description: Get journals list
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.JournalsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get journals list
+      tags:
+      - journal
     post:
       consumes:
       - application/json
@@ -2834,46 +3102,6 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       summary: Update journal by id
-      tags:
-      - journal
-  /journals:
-    get:
-      consumes:
-      - application/json
-      description: Get journals list
-      parameters:
-      - description: page
-        in: query
-        name: page
-        type: string
-      - description: limit
-        in: query
-        name: limit
-        type: string
-      - description: search
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.JournalsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      summary: Get journals list
       tags:
       - journal
   /order_drug:
@@ -3056,7 +3284,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get Orderss list
+      description: Get Orders list
       parameters:
       - description: page
         in: query
@@ -3089,7 +3317,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Response'
-      summary: Get Orderss list
+      summary: Get Orders list
       tags:
       - orders
     post:
@@ -3364,6 +3592,44 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       summary: Get Pharmacist by id
+      tags:
+      - pharmacist
+    patch:
+      consumes:
+      - application/json
+      description: update pharmacist password
+      parameters:
+      - description: pharmacist
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: pharmacist
+        in: body
+        name: pharmacist
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePharmacistPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update pharmacist password
       tags:
       - pharmacist
     put:
@@ -3716,6 +3982,44 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       summary: Get SuperAdmin by id
+      tags:
+      - super_admin
+    patch:
+      consumes:
+      - application/json
+      description: update super_admin password
+      parameters:
+      - description: super_admin
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: super_admin
+        in: body
+        name: super_admin
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateSuperAdminPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update super_admin password
       tags:
       - super_admin
     put:
