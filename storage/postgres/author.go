@@ -71,7 +71,7 @@ func (a *authorRepo) Get(ctx context.Context, request models.PrimaryKey) (models
 	 password, 
 	 phone, 
 	 gender, 
-	 birth_date, 
+	 birth_date::text, 
 	 age, 
 	 address, 
 	 created_at, 
@@ -137,7 +137,7 @@ func (a *authorRepo) GetList(ctx context.Context, request models.GetListRequest)
 	 password, 
 	 phone, 
 	 gender, 
-	 birth_date, 
+	 birth_date::text, 
 	 age, 
 	 address, 
 	 created_at, 
@@ -243,6 +243,21 @@ func (a *authorRepo) Delete(ctx context.Context, id string) error {
 	}
 
 	return nil
+}
+
+func (a *authorRepo) GetPassword(ctx context.Context, id string) (string, error) {
+	password := ""
+
+	query := `
+		select password from author 
+		                where id = $1`
+
+	if err := a.pool.QueryRow(ctx, query, id).Scan(&password); err != nil {
+		fmt.Println("Error while scanning password from author", err.Error())
+		return "", err
+	}
+
+	return password, nil
 }
 
 func (a *authorRepo) UpdatePassword(ctx context.Context, request models.UpdateAuthorPassword) error {

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"shifolink/api/models"
+	"shifolink/pkg/check"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -228,6 +229,7 @@ func (h Handler) DeleteClinicAdmin(c *gin.Context) {
 // @Failure      404  {object}  models.Response
 // @Failure      500  {object}  models.Response
 func (h Handler) UpdateClinicAdminPassword(c *gin.Context) {
+
 	updateClinicAdminPassword := models.UpdateClinicAdminPassword{}
 
 	if err := c.ShouldBindJSON(&updateClinicAdminPassword); err != nil {
@@ -242,6 +244,23 @@ func (h Handler) UpdateClinicAdminPassword(c *gin.Context) {
 	}
 
 	updateClinicAdminPassword.ID = uid.String()
+
+	oldPassword, err := h.storage.ClinicAdmin().GetPassword(c, updateClinicAdminPassword.ID)
+	if err != nil {
+		handleResponse(c, "error while getting password by id", http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if oldPassword != updateClinicAdminPassword.OldPassword{
+		handleResponse(c, "old password is not coorect", http.StatusBadRequest, "old password is not correct")
+		return
+	}
+
+	if err = check.ValidatePassword(updateClinicAdminPassword.NewPassword); err != nil {
+		handleResponse(c, "new password is weak", http.StatusBadRequest, err.Error())
+		return
+	} 
+
 
 	if err = h.storage.ClinicAdmin().UpdatePassword(context.Background(), updateClinicAdminPassword); err != nil {
 		handleResponse(c, "error while updating clinic admin password", http.StatusInternalServerError, err.Error())

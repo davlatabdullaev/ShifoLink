@@ -45,7 +45,7 @@ type UpdateClinicAdmin struct {
 }
 
 type UpdateClinicAdminPassword struct {
-	ID          string `json:"-"`
+	ID          string `json:"id"`
 	NewPassword string `json:"new_password"`
 	OldPassword string `json:"old_password"`
 }

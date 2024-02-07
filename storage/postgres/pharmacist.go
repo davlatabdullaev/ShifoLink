@@ -84,7 +84,7 @@ func (p *pharmacistRepo) Get(ctx context.Context, request models.PrimaryKey) (mo
 	 password, 
 	 phone, 
 	 gender, 
-	 birth_date, 
+	 birth_date::text, 
 	 age, 
 	 address, 
 	 created_at, 
@@ -153,7 +153,7 @@ func (p *pharmacistRepo) GetList(ctx context.Context, request models.GetListRequ
 	 password, 
 	 phone, 
 	 gender, 
-	 birth_date, 
+	 birth_date::text, 
 	 age, 
 	 address, 
 	 created_at, 
@@ -263,6 +263,21 @@ func (p *pharmacistRepo) Delete(ctx context.Context, id string) error {
 	}
 
 	return nil
+}
+
+func (p *pharmacistRepo) GetPassword(ctx context.Context, id string) (string, error) {
+	password := ""
+
+	query := `
+		select password from pharmacist 
+						where id = $1`
+
+	if err := p.pool.QueryRow(ctx, query, id).Scan(&password); err != nil {
+		fmt.Println("Error while scanning password from pharmacist", err.Error())
+		return "", err
+	}
+
+	return password, nil
 }
 
 func (p *pharmacistRepo) UpdatePassword(ctx context.Context, request models.UpdatePharmacistPassword) error {

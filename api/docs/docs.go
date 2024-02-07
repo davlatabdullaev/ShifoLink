@@ -5843,6 +5843,9 @@ const docTemplate = `{
         "models.UpdateClinicAdminPassword": {
             "type": "object",
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "new_password": {
                     "type": "string"
                 },

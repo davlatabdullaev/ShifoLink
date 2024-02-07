@@ -799,6 +799,8 @@ definitions:
     type: object
   models.UpdateClinicAdminPassword:
     properties:
+      id:
+        type: string
       new_password:
         type: string
       old_password:

@@ -86,7 +86,7 @@ func (c *clinicAdminRepo) Get(ctx context.Context, request models.PrimaryKey) (m
 	 password, 
 	 phone, 
 	 gender, 
-	 birth_date, 
+	 birth_date::text, 
 	 age, 
 	 address, 
 	 created_at, 
@@ -156,7 +156,7 @@ func (c *clinicAdminRepo) GetList(ctx context.Context, request models.GetListReq
 	 password, 
 	 phone, 
 	 gender, 
-	 birth_date, 
+	 birth_date::text, 
 	 age, 
 	 address, 
 	 created_at, 
@@ -211,7 +211,7 @@ func (c *clinicAdminRepo) GetList(ctx context.Context, request models.GetListReq
 
 func (c *clinicAdminRepo) Update(ctx context.Context, request models.UpdateClinicAdmin) (string, error) {
 
-	query := `update author set
+	query := `update clinic_admin set
 	clinic_branch_id = $1,
 	doctor_type_id = $2,
     first_name = $3,
@@ -268,6 +268,21 @@ func (c *clinicAdminRepo) Delete(ctx context.Context, id string) error {
 	}
 
 	return nil
+}
+
+func (c *clinicAdminRepo) GetPassword(ctx context.Context, id string) (string, error) {
+	password := ""
+
+	query := `
+		select password from clinic_admin 
+						where id = $1`
+
+	if err := c.pool.QueryRow(ctx, query, id).Scan(&password); err != nil {
+		fmt.Println("Error while scanning password from clinic_admin", err.Error())
+		return "", err
+	}
+
+	return password, nil
 }
 
 func (c *clinicAdminRepo) UpdatePassword(ctx context.Context, request models.UpdateClinicAdminPassword) error {

@@ -27,6 +27,7 @@ func New(store storage.IStorage) *gin.Engine {
 	r.GET("author", h.GetAuthorList)
 	r.PUT("author/:id", h.UpdateAuthor)
 	r.DELETE("author/:id", h.DeleteAuthor)
+	r.PATCH("author/:id", h.UpdateAuthorPassword)
 
 	// CLINIC ADMIN
 
@@ -35,6 +36,7 @@ func New(store storage.IStorage) *gin.Engine {
 	r.GET("clinic_admin", h.GetClinicAdminsList)
 	r.PUT("clinic_admin/:id", h.UpdateClinicAdmin)
 	r.DELETE("clinic_admin/:id", h.DeleteClinicAdmin)
+	r.PATCH("clinic_admin/:id", h.UpdateClinicAdminPassword)
 
 	// CLINIC BRANCH
 
@@ -59,6 +61,7 @@ func New(store storage.IStorage) *gin.Engine {
 	r.GET("customer", h.GetCustomersList)
 	r.PUT("customer/:id", h.UpdateCustomer)
 	r.DELETE("customer/:id", h.DeleteCustomer)
+	r.PATCH("customer/:id", h.UpdateCustomerPassword)
 
 	// DOCTOR TYPE
 
@@ -75,6 +78,7 @@ func New(store storage.IStorage) *gin.Engine {
 	r.GET("doctor", h.GetDoctorsList)
 	r.PUT("doctor/:id", h.UpdateDoctor)
 	r.DELETE("doctor/:id", h.DeleteDoctor)
+	r.PATCH("doctor/:id", h.UpdateDoctorPassword)
 
 	// DRUG STORE BRANCH
 
@@ -131,6 +135,7 @@ func New(store storage.IStorage) *gin.Engine {
 	r.GET("pharmacist", h.GetPharmacistsList)
 	r.PUT("pharmacist/:id", h.UpdatePharmacist)
 	r.DELETE("pharmacist/:id", h.DeletePharmacist)
+	r.PATCH("pharmacist/:id", h.UpdatePharmacistPassword)
 
 	// QUEUE
 
@@ -147,6 +152,7 @@ func New(store storage.IStorage) *gin.Engine {
 	r.GET("super_admin", h.GetSuperAdminsList)
 	r.PUT("super_admin/:id", h.UpdateSuperAdmin)
 	r.DELETE("super_admin/:id", h.DeleteSuperAdmin)
+	r.PATCH("super_admin/:id", h.UpdateSuperAdminPassword)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r

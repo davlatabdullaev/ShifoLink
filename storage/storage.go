@@ -41,6 +41,7 @@ type IClinicAdminRepo interface {
 	Update(context.Context, models.UpdateClinicAdmin) (string, error)
 	Delete(context.Context, string) error
 	UpdatePassword(context.Context, models.UpdateClinicAdminPassword) error
+	GetPassword(context.Context, string) (string, error)
 }
 
 type IClinicBranchRepo interface {

@@ -1,6 +1,7 @@
 package check
 
 import (
+	"errors"
 	"fmt"
 	"time"
 )
@@ -21,4 +22,12 @@ func CalculateAge(birthDate string) int {
 	}
 
 	return age
+}
+
+func ValidatePassword(password string) error {
+	if len(password) < 6 {
+		return errors.New("password length should be more than 6")
+	}
+
+	return nil
 }
