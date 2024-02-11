@@ -1,4 +1,4 @@
-queue table ga malumot kiritganda queue number uchun quyidagi trigger ishlaydi
+--queue table ga malumot kiritganda queue number uchun quyidagi trigger ishlaydi
 
 CREATE OR REPLACE FUNCTION generate_queue_number() RETURNS TRIGGER AS $$
 DECLARE
