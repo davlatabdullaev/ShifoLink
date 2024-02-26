@@ -5,7 +5,6 @@ import (
 	"errors"
 	"net/http"
 	"shifolink/api/models"
-	"shifolink/pkg/check"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -31,21 +30,13 @@ func (h Handler) CreateAuthor(c *gin.Context) {
 		handleResponse(c, "error while reading body from client", http.StatusBadRequest, err)
 	}
 
-	id, err := h.storage.Author().Create(context.Background(), createAuthor)
+	resp, err := h.services.Author().Create(context.Background(), createAuthor)
 	if err != nil {
-		handleResponse(c, "error while creating author", http.StatusInternalServerError, err)
+		handleResponse(c, "error while creating author", http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	author, err := h.storage.Author().Get(context.Background(), models.PrimaryKey{
-		ID: id,
-	})
-	if err != nil {
-		handleResponse(c, "error while get author ", http.StatusInternalServerError, err)
-		return
-	}
-
-	handleResponse(c, "", http.StatusCreated, author)
+	handleResponse(c, "", http.StatusCreated, resp)
 
 }
 
@@ -73,7 +64,7 @@ func (h Handler) GetAuthorByID(c *gin.Context) {
 		return
 	}
 
-	author, err := h.storage.Author().Get(context.Background(), models.PrimaryKey{
+	author, err := h.services.Author().Get(context.Background(), models.PrimaryKey{
 		ID: id.String(),
 	})
 	if err != nil {
@@ -122,8 +113,7 @@ func (h Handler) GetAuthorList(c *gin.Context) {
 	}
 
 	search = c.Query("search")
-
-	response, err := h.storage.Author().GetList(context.Background(), models.GetListRequest{
+	response, err := h.services.Author().GetList(context.Background(), models.GetListRequest{
 		Page:   page,
 		Limit:  limit,
 		Search: search,
@@ -160,24 +150,16 @@ func (h Handler) UpdateAuthor(c *gin.Context) {
 		return
 	}
 
-	//updateAuthor.ID = uid
+	updateAuthor.ID = uid
 
 	if err := c.ShouldBindJSON(&updateAuthor); err != nil {
 		handleResponse(c, "error while reading body", http.StatusBadRequest, err.Error())
 		return
 	}
 
-	id, err := h.storage.Author().Update(context.Background(), updateAuthor)
+	author, err := h.services.Author().Update(context.Background(), updateAuthor)
 	if err != nil {
 		handleResponse(c, "error while updating author", http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	author, err := h.storage.Author().Get(context.Background(), models.PrimaryKey{
-		ID: id,
-	})
-	if err != nil {
-		handleResponse(c, "error while getting author by id", http.StatusInternalServerError, err)
 		return
 	}
 
@@ -206,7 +188,7 @@ func (h Handler) DeleteAuthor(c *gin.Context) {
 		return
 	}
 
-	if err := h.storage.Author().Delete(context.Background(), id.String()); err != nil {
+	if err := h.services.Author().Delete(context.Background(), id.String()); err != nil {
 		handleResponse(c, "error while deleting author by id", http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -244,24 +226,9 @@ func (h Handler) UpdateAuthorPassword(c *gin.Context) {
 
 	updateAuthorPassword.ID = uid.String()
 
-	oldPassword, err := h.storage.Author().GetPassword(c, updateAuthorPassword.ID)
+	err = h.services.Author().UpdatePassword(context.Background(), updateAuthorPassword)
 	if err != nil {
-		handleResponse(c, "error while getting password by id", http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	if oldPassword != updateAuthorPassword.OldPassword {
-		handleResponse(c, "old password is not correct", http.StatusBadRequest, "old password is not correct")
-		return
-	}
-
-	if err = check.ValidatePassword(updateAuthorPassword.NewPassword); err != nil {
-		handleResponse(c, "new password is weak", http.StatusBadRequest, err.Error())
-		return
-	}
-
-	if err = h.storage.Author().UpdatePassword(context.Background(), updateAuthorPassword); err != nil {
-		handleResponse(c, "error while updating author password", http.StatusInternalServerError, err.Error())
+		handleResponse(c, "error while updating author by id", http.StatusInternalServerError, err.Error())
 		return
 	}
 

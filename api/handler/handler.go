@@ -2,6 +2,7 @@ package handler
 
 import (
 	"shifolink/api/models"
+	"shifolink/service"
 	"shifolink/storage"
 
 	"github.com/gin-gonic/gin"
@@ -9,11 +10,13 @@ import (
 
 type Handler struct {
 	storage storage.IStorage
+	services service.IServiceManager
 }
 
-func New(store storage.IStorage) Handler {
+func New(store storage.IStorage, services service.IServiceManager) Handler {
 	return Handler{
 		storage: store,
+		services: services,
 	}
 }
 

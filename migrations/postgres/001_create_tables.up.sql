@@ -1,4 +1,4 @@
-CREATE TABLE clinic (
+CREATE TABLE IF NOT EXISTS clinic (
     id UUID PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE clinic (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE clinic_branch (
+CREATE TABLE IF NOT EXISTS clinic_branch (
     id UUID PRIMARY KEY,
     clinic_id UUID REFERENCES clinic(id),
     address VARCHAR(50) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE clinic_branch (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE doctor_type (
+CREATE TABLE IF NOT EXISTS doctor_type (
     id UUID PRIMARY KEY,
     name   VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE doctor_type (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE clinic_admin (
+CREATE TABLE IF NOT EXISTS clinic_admin (
     id UUID PRIMARY KEY,
     clinic_branch_id UUID REFERENCES clinic_branch(id),
     doctor_type_id UUID REFERENCES doctor_type(id),
@@ -42,7 +42,7 @@ CREATE TABLE clinic_admin (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );-- great
-CREATE TABLE doctor (
+CREATE TABLE IF NOT EXISTS doctor (
     id UUID PRIMARY KEY,
     doctor_type_id UUID REFERENCES doctor_type(id),
     first_name VARCHAR(25) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE doctor (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );-- great
-CREATE TABLE customer (
+CREATE TABLE IF NOT EXISTS customer (
     id UUID PRIMARY KEY,
     first_name VARCHAR(25) NOT NULL,
     last_name VARCHAR(25) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE customer (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE queue (
+CREATE TABLE IF NOT EXISTS queue (
     id UUID PRIMARY KEY,
     customer_id UUID REFERENCES customer(id),
     doctor_id UUID REFERENCES doctor(id),
@@ -85,7 +85,7 @@ CREATE TABLE queue (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE drug_store (
+CREATE TABLE IF NOT EXISTS drug_store (
     id UUID PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL, 
@@ -93,7 +93,7 @@ CREATE TABLE drug_store (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE drug_store_branch (
+CREATE TABLE IF NOT EXISTS drug_store_branch (
     id UUID PRIMARY KEY,
     drug_store_id UUID REFERENCES drug_store(id),
     address VARCHAR(120) NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE drug_store_branch (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE drug (
+CREATE TABLE IF NOT EXISTS drug (
     id UUID PRIMARY KEY,
     drug_store_branch_id UUID REFERENCES drug_store_branch(id),
     name VARCHAR(50) NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE drug (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE pharmacist (
+CREATE TABLE IF NOT EXISTS pharmacist (
     id UUID PRIMARY KEY,
     drug_store_branch_id UUID REFERENCES drug_store_branch(id),
     first_name VARCHAR(25) NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE pharmacist (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     id UUID PRIMARY KEY,
     pharmacist_id UUID REFERENCES pharmacist(id),
     customer_id UUID REFERENCES customer(id),
@@ -140,7 +140,7 @@ CREATE TABLE orders (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE order_drug (
+CREATE TABLE IF NOT EXISTS order_drug (
     id UUID PRIMARY KEY,
     drug_id UUID REFERENCES drug(id),
     orders_id UUID REFERENCES orders(id),
@@ -148,7 +148,7 @@ CREATE TABLE order_drug (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE author (
+CREATE TABLE IF NOT EXISTS author (
     id UUID PRIMARY KEY,
     first_name VARCHAR(25) NOT NULL,
     last_name VARCHAR(25) NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE author (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE journal (
+CREATE TABLE IF NOT EXISTS journal (
     id UUID PRIMARY KEY,
     author_id UUID REFERENCES author(id),
     theme VARCHAR(150) NOT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE journal (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP
 );
-CREATE TABLE super_admin (
+CREATE TABLE IF NOT EXISTS super_admin (
     id UUID PRIMARY KEY,
     clinic_id UUID REFERENCES clinic(id),
     drug_store_id UUID REFERENCES drug_store(id),

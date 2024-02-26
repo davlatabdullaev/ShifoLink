@@ -1,9 +1,9 @@
 package api
 
 import (
+	"shifolink/service"
 	"shifolink/storage"
 
-	_ "shifolink/api/docs"
 	"shifolink/api/handler"
 
 	"github.com/gin-gonic/gin"
@@ -14,9 +14,9 @@ import (
 // @title           ShifoLink
 // @version         1.0.0
 // @description     Online doctor appointments and drug orders
-func New(store storage.IStorage) *gin.Engine {
+func New(services service.IServiceManager, store storage.IStorage) *gin.Engine {
 
-	h := handler.New(store)
+	h := handler.New(store, services)
 
 	r := gin.New()
 

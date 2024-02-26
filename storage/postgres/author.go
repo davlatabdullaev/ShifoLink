@@ -28,9 +28,19 @@ func (a *authorRepo) Create(ctx context.Context, request models.CreateAuthor) (s
 
 	id := uuid.New()
 
-	query := `insert into author (id, first_name, last_name, email, password, phone, gender, birth_date, age, address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+	query := `insert into author (
+		id, 
+		first_name, 
+		last_name, 
+		email, 
+		password, 
+		phone, 
+		gender, 
+		birth_date, 
+		age, 
+		address) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
 
-	rowsAffected, err := a.pool.Exec(ctx, query,
+	_, err := a.pool.Exec(ctx, query,
 		id,
 		request.FirstName,
 		request.LastName,
@@ -42,11 +52,6 @@ func (a *authorRepo) Create(ctx context.Context, request models.CreateAuthor) (s
 		check.CalculateAge(request.BirthDate),
 		request.Address,
 	)
-
-	if r := rowsAffected.RowsAffected(); r == 0 {
-		log.Println("error is while rows affected ", err.Error())
-		return "", err
-	}
 
 	if err != nil {
 		log.Println("error while inserting author", err.Error())

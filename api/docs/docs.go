@@ -5784,6 +5784,9 @@ const docTemplate = `{
         "models.UpdateAuthorPassword": {
             "type": "object",
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "new_password": {
                     "type": "string"
                 },
