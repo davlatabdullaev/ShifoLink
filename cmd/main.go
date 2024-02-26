@@ -21,7 +21,7 @@ func main() {
 		return
 	}
 	
-	//defer pgStore.CloseDB()
+	defer pgStore.CloseDB()
 
 	services := service.New(pgStore)
 
