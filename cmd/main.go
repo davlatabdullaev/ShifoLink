@@ -13,7 +13,11 @@ import (
 
 func main() {
 
+  // Config .env dan database ni manzilini olib keladi
+
 	cfg := config.Load()
+
+	// keyin olingan manzil postgresga berib yuboriladi va shu joydan service layerga malumot uzatiladi
 
 	pgStore, err := postgres.New(context.Background(), cfg)
 	if err != nil {
@@ -23,7 +27,11 @@ func main() {
 	
 	defer pgStore.CloseDB()
 
+    // service layerda biznes logikalar bajariladi
+
 	services := service.New(pgStore)
+
+	// keyin api orqali dastur ishga tushadi
 
 	server := api.New(services, pgStore)
 
